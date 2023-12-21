@@ -1,3 +1,9 @@
+/* 
+Diseñar la función facturacion(), la cual admite dos parámetros de entrada (un
+teléfono y un año) y devuelve la facturación total de ese número en ese año. La
+función debe controlar 2 tipos de excepciones:
+->el teléfono no existe o el teléfono no ha realizado llamadas ese año.
+->la facturación del teléfono es inferior a 1 euro.*/
 SET SERVEROUTPUT ON;
 CREATE OR REPLACE FUNCTION BD_072.facturacion(telefono IN LLAMADA.tf_origen%TYPE, año IN INTEGER) RETURN NUMBER IS
     noExisteTelefono EXCEPTION;
@@ -47,6 +53,9 @@ EXCEPTION
 END facturacion;
 
 ------------------------------------------------------------------
+--Diseñar el procedimiento LlamadaFacturacion(año), el cual, para cada teléfono de
+--la tabla LLAMADAS debe realizar una llamada a la función facturación y mostrar la
+--facturación de dicho teléfono en el año que se le pasa como parámetro.
 
 CREATE OR REPLACE PROCEDURE BD_072.LLAMADAFACTURACION(p_anio INTEGER) IS
       CURSOR c_telefonos IS SELECT DISTINCT tf_origen FROM MF."LLAMADA"
@@ -65,6 +74,19 @@ END LLAMADAFACTURACION;
 CALL LLAMADAFACTURACION(2006);
 
 -------------------------------------------------------------------------
+/*Crear un procedimiento que tenga como parámetros de entrada el nombre de una
+compañía y una fecha. Dicho procedimiento debe realizar las siguientes
+operaciones:
+1. Comprobar que existen en la BD llamadas realizadas en la fecha que se pasa
+como parámetro. En caso contrario lanzar una excepción y mostrar el
+mensaje “No hay llamadas en la fecha <fecha> en la BD”.
+2. Para cada teléfono de la compañía que se pasa por parámetro, el
+procedimiento debe mostrar la siguiente información: número de teléfono,
+número total de llamadas realizadas en la fecha indicada, número de
+llamadas de duración mayor de 100 segundos realizadas en la fecha,
+porcentaje que suponen estas últimas respecto al total de las realizadas.
+3. Un resumen del número de llamadas realizadas por todos los teléfonos de la
+compañía indicada en la fecha pasada por parámetro*/
 CREATE OR REPLACE PROCEDURE BD_072.LLAMADAS_CIA(p_nombre MF."COMPAÑIA".nombre%TYPE, p_fecha VARCHAR2) IS
       n_filas_llamadas INTEGER;
       n_llamadas_total INTEGER;
@@ -123,6 +145,7 @@ END LLAMADAS_CIA;
 CALL LLAMADAS_CIA('Kietostar', '16/10/06');
 
 ----------------------------------------------------------------------------------
+
 CREATE OR REPLACE PROCEDURE TELEFONOS_COMPAÑIA(p_nombre MF."COMPAÑIA".nombre%TYPE) IS
 
 duracion_total FLOAT;
