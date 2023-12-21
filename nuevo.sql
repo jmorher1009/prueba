@@ -221,3 +221,80 @@ WHEN OTHERS THEN
 dbms_output.put_line('Ha ocurrido un error');
 
 END TELEFONOS_COMPAÑIA;
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+CREATE OR REPLACE PROCEDURE TELEFONOS_COMPAÑIA(p_nombre MF."COMPAÑIA".nombre%TYPE) IS
+
+duracion_total FLOAT;
+
+coste_total NUMBER(5,2);
+
+coste NUMBER(5,2);
+
+
+
+CURSOR c_telefonos IS SELECT tl.numero FROM MF."TELEFONO" tl
+
+INNER JOIN MF."COMPAÑIA" c ON tl.compañia=c.cif
+
+WHERE p_nombre=c.nombre;
+
+CURSOR c_llamadas (tlf MF."LLAMADA".tf_origen%TYPE) IS
+
+SELECT ll.tf_origen, ll.tf_destino, ll.duracion, tf.coste FROM MF."LLAMADA" ll
+
+INNER JOIN MF."TELEFONO" tl ON tl.numero=ll.tf_origen INNER JOIN MF."COMPAÑIA" c ON tl.compañia=c.cif
+
+INNER JOIN MF."TARIFA" tf ON tf.compañia=c.cif
+
+WHERE p_nombre=c.nombre AND ll.tf_origen=tlf;
+
+not_found_compania EXCEPTION;
+
+BEGIN
+
+IF ((p_nombre <> 'Aotra') AND (p_nombre <> 'Petafón')) THEN
+
+RAISE not_found_compania;
+
+END IF;
+
+dbms_output.put_line(' Telefono | Duracion total | Coste total');
+
+dbms_output.put_line('-----------------------------------------------------');
+
+FOR r_telefonos IN c_telefonos LOOP
+
+duracion_total:=0;
+
+coste:=0;
+
+coste_total:=0;
+
+FOR r_llamadas IN c_llamadas(r_telefonos.numero) LOOP
+
+duracion_total:=duracion_total+r_llamadas.duracion;
+
+coste:=r_llamadas.coste;
+
+END LOOP;
+
+duracion_total:=duracion_total-(duracion_total/2);
+
+coste_total:=((duracion_total * coste)/60);
+
+dbms_output.put_line( rpad(r_telefonos.numero,25) || rpad(duracion_total,15) || coste_total);
+
+END LOOP;
+
+EXCEPTION
+
+WHEN not_found_compania THEN
+
+dbms_output.put_line('No hay ninguna compañía cuyo nombre sea ' || p_nombre);
+
+WHEN OTHERS THEN
+
+dbms_output.put_line('Ha ocurrido un error');
+
+END TELEFONOS_COMPAÑIA;
