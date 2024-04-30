@@ -28,4 +28,39 @@ TUBERÍAS:
 	dup(pos) // duplicar una posición de la tabla de canales
 	//close()->dup()->execl()
 	int lapipe = dup(1); 
+	read(lapipe);		
+
+	close(1);
+	open("/dev/tty",O_WRONLY);
 	
+--------------------------------------------- PRACTICA_6 ---------------------------------------------
+
+Cola de mensajes
+
+//Lo que mandamos siempre son estructuras
+struct mensaje{
+	long tipo;
+	...
+	...
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
