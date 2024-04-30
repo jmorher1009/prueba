@@ -46,9 +46,7 @@ struct mensaje{
 key_t ftok(char *camino, int proy)// key_t = entero
 int msgget(key_t clave, int msgflg)// devuelve el identificador con el cual podemos leer/escribir en dicha cola
 int msgsnd(int msqid,struct msgbuf *msgp, int msgsz, int msgflg)
-
-
-
+int msgrcv(int msqid,struct msgbuf *msgp, int msgsz, long mtype, int msgflg) //mtype -> el mas antiguo del tipo
 
 
 
