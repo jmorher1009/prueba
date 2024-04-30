@@ -1,15 +1,26 @@
 --------------------------------------------- PRACTICA_5  ---------------------------------------------
 COMUNICACIÓN ENTRE PROCESOS:
-	FIFOS
-	Tuberías / PIPES
-	COLAS de mensajes
-FIFO(First In First Out):
-Fichero especial 
-int mkfifo(char *path, modo_t modo) // path y modo de apertura
-int read(int fichero, char* buffer , int nBytes); // el entero por parámetro es la posición de la tabla de canales
-int write(int fichero, char* buffer , int nBytes);
-//DEVUELVEN SU POSICIÓN EN LA TABLA DE CANALES
-// señal 13 -> devuelve la escritura cuando no hay procesos en el sistema para leer
+-FIFOS
+-Tuberías / PIPES
+-COLAS de mensajes
 
-close(fd1) // cortar conexion
-unlink("nombrefifo") // el parámetro es el nombre de la FIFO
+FIFO:
+	FIFO(First In First Out):
+	Fichero especial 
+	int mkfifo(char *path, modo_t modo) // path y modo de apertura
+	int read(int fichero, char* buffer , int nBytes); // el entero por parámetro es la posición de la tabla de canales
+	int write(int fichero, char* buffer , int nBytes);
+	//DEVUELVEN SU POSICIÓN EN LA TABLA DE CANALES
+	// señal 13 -> devuelve la escritura cuando no hay procesos en el sistema para leer
+
+	close(fd1) // cortar conexion
+	unlink("nombrefifo") // el parámetro es el nombre de la FIFO
+TUBERÍAS:
+
+	//las tuberías no tienen nombre
+	int pipe(int tuberia1[2]) 
+	//return -1 -> no se ha podido crear 
+	// tuberia[0] -->
+	// tuberia[1] -->
+
+	
