@@ -20,7 +20,12 @@ TUBERÍAS:
 	//las tuberías no tienen nombre
 	int pipe(int tuberia1[2]) 
 	//return -1 -> no se ha podido crear 
-	// tuberia[0] -->
-	// tuberia[1] -->
+	// tuberia[0] --> Se puede leer (almacena posicion de tabla de canales)
+	// tuberia[1] --> Se puede escribir (almacena posicion de tabla de canales)
 
+	int read(tuberia1[0],...)
+
+	dup(pos) // duplicar una posición de la tabla de canales
+	//close()->dup()->execl()
+	int lapipe = dup(1); 
 	
