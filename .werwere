@@ -39,10 +39,13 @@ Cola de mensajes
 
 //Lo que mandamos siempre son estructuras
 struct mensaje{
-	long tipo;
-	...
+	long tipo; // no puede ser 0 -> devuelve el más antiguo
 	...
 }
+
+key_t ftok(char *camino, int proy)// key_t = entero
+int msgget(key_t clave, int msgflg)// devuelve el identificador con el cual podemos leer/escribir en dicha cola
+int msgsnd(int msqid,struct msgbuf *msgp, int msgsz, int msgflg)
 
 
 
