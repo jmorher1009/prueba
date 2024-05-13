@@ -27,3 +27,13 @@ loop:	LW R6, X(R5)	;R6=X[0]=0
 	BNEZ R2,loop
 	NOP
 trap 6
+;Paso a paso de la explicación (defensa)
+;1) códicgo ( entero )
+;2) analisis sin adelantamiento
+;3) analisis con adelantamiento
+;4) desenrollar bucle ->(con y sin adelantamiento)
+;5) código para float ó operaciones multicilo
+;6) análisis sin adelantamiente
+;7) análisis con adelantamiento ->(con y sin adelantamiento)
+;8) Desenrollado de bucle
+
