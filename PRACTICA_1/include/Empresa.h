@@ -4,7 +4,7 @@
 #include "Cliente.h"
 class Empresa
 {
-    Cliente *Clientes[100]; //array estático (tamaño 100) de punteros a Clientes
+    Cliente *clientes[100]; //array estático (tamaño 100) de punteros a Clientes
     const int nmaxcli; //constante que indica cuántos caben en el array clientes (100)
     int ncli; //para saber cuántos clientes hay en el array (al principio 0)
     int ncon; // numero de contratos activos (al principio 0)
@@ -19,7 +19,7 @@ public:
     int altaCliente(Cliente *c);
     int buscarCliente(long int dni) const;   //si no existe devuelve -1 y si existe
     void crearContrato();
-
+    void cargarDatos();
     virtual ~Empresa();
 
 protected:
