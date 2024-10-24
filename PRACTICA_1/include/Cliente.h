@@ -1,31 +1,42 @@
 #ifndef CLIENTE_H
 #define CLIENTE_H
-
-#include <iostream> //cin, cout
+#include <iostream>
+#include <string.h>
 #include "Fecha.h"
 
-using namespace std;
-//SI FALTA ALGUN METODO O FUNCION AÑADIRLO...
-class Cliente {
-  long int dni;
-  char *nombre;
-  Fecha fechaAlta;
+class Cliente
+{
+private:
+    long int dni;
+    char * nombre;
+    Fecha fechacliente;
 public:
-  Cliente(long int d, char *nom, Fecha f);
-  virtual ~Cliente();
-  Cliente& operator=(const Cliente& c);
 
-  long int getDni() const { return this->dni; }
-  const char* getNombre() const { return nombre; } //VIP devolver un puntero constante para evitar que desde el main() se puede modificar el nombre
-  Fecha getFecha() const { return fechaAlta; }
+    Cliente(const long int &d, char* nombre,const Fecha &fcli);
+    virtual ~Cliente();
 
-  void setNombre(char *nom);
-  void setFecha(Fecha f);
+    void setNombre(char* nom);
+    inline void setFecha(const Fecha &fechaux)
+    {
+        this->fechacliente.setFecha(fechaux.getDia(),fechaux.getMes(),fechaux.getAnio());
+    }
 
-  bool operator==(Cliente c) const; // if (c1 ===c2)
+    inline long int getDni()const
+    {
+        return (this -> dni);
+    }
+    inline const char* getNombre()const{
+        return this->nombre;
+      //el const antes del puntero a char es para que no se pueda hacer strcpy(aux.getNombre(),"otronombre");
+   }
+    inline Fecha getFecha()const{
+        return this->fechacliente;
+    }
+
+    bool operator==(const Cliente &aux) const;
 
 };
 
-ostream& operator<<(ostream &s, const Cliente &c); //funcion no amiga de la clase
+ostream& operator<<(ostream& s, const Cliente &c);
 
 #endif // CLIENTE_H

@@ -12,6 +12,8 @@ class Contrato {
   long int dniContrato;
   Fecha fechaContrato;
 public:
+
+
   Contrato(long int dni, Fecha f);
   virtual ~Contrato();
 //Contrato(const Contrato& c); //¿es necesario? pensar y reflexionad
@@ -25,7 +27,9 @@ public:
   Fecha getFechaContrato() const { return this->fechaContrato; }
   void setFechaContrato(Fecha f) { this->fechaContrato=f; }
   void setDniContrato(long int dni) { this->dniContrato=dni; }
-  void ver() const;
+  virtual void ver() const;
+  virtual void nada() const = 0; //indico que este método no lo vamos a implementar
+  virtual float factura()const =0;
 };
 
 ostream& operator<<(ostream &s, const Contrato &c);

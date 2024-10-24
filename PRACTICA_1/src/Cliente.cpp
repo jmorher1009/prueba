@@ -1,43 +1,74 @@
-#include <cstdlib>
-#include <cstring> //strlen, strcpy
-#include <iomanip> //std::setprecision
-#include <sstream> //stringstream
 #include "Cliente.h"
+#include "Fecha.h"
 
-//Cliente::Cliente(long int d, char *nom, Fecha f):fechaAlta(f.getDia(), f.getMes(), f.getAnio()) {
-Cliente::Cliente(long int d, char *nom, Fecha f):fechaAlta(f) { //esta cabecera es mas corta (invoco
-  this->dni=d;                                                  //constructor copia de fecha
-                                                                //en vez de constructor de 3 parametros)
-  //this->nombre=nombre;  //MAL!!!!
-  this->nombre=new char[strlen(nom)+1];
-  strcpy(this->nombre, nom);
-
-  //this->fechaAlta=f;//MAL!!!! los tipos no primitivos debe ir en zona inicializadores
+Cliente::Cliente(const long int &d, char* nombre,const Fecha &fcli):fechacliente(fcli)
+{
+    this->dni = d;
+    this->nombre = new char[strlen(nombre)+1]; // el +1 por el '/0'
+    strcpy(this->nombre, nombre);
 }
 
-Cliente::~Cliente() {
-  delete [] this->nombre; //si en el constructor uso new [] en el destructor uso delete []
+Cliente::~Cliente()
+{
+    delete [] nombre;
 }
 
-Cliente& Cliente::operator=(const Cliente& c) {
-  if (this != &c) { //si no es x=x
-    this->dni=c.dni;
+void Cliente::setNombre(char* nom)
+{
+
     delete [] this->nombre;
-    //this->nombre=c.nombre;  //MAL!!!!
-    this->nombre=new char[strlen(c.nombre)+1];
-    strcpy(this->nombre, c.nombre);
-    this->fechaAlta=c.fechaAlta;
-  }
-  return *this;
+    nombre = new char[strlen(nom) + 1];
+    strcpy(this->nombre, nom);
+
 }
 
-bool Cliente::operator==(Cliente c) const {
-  if (this->dni!=c.dni) return false;
-  if (strcmp(this->nombre, c.nombre)!=0) return false;
-  if (this->fechaAlta.getDia()!=c.fechaAlta.getDia() ||
-      this->fechaAlta.getMes()!=c.fechaAlta.getMes() ||
-      this->fechaAlta.getAnio()!=c.fechaAlta.getAnio()) return false;
-  return true;
+/*void Cliente::setFecha(Fecha &&fechaux){
+    this->fechacliente.setfecha(fechaux.getDia(),fechaux.getMes(),fechaux.getAnio());
 }
 
-//RESTO DE METODOS Y FUNCIONES A RELLENAR POR EL ALUMNO...
+
+long int Cliente::getDni(){}
+
+char* Cliente::getNombre(){}
+
+Fecha Cliente::getFecha(){}
+
+*/
+bool Cliente::operator==(const Cliente &aux)const
+{
+
+    bool esigual = false;
+
+    if(strcmp (this->nombre,aux.nombre)==0)
+    {
+        if(this->dni == aux.dni)
+        {
+            if(fechacliente.getAnio()==aux.fechacliente.getAnio())
+            {
+                if(fechacliente.getMes()==aux.fechacliente.getMes())
+                {
+                    if(fechacliente.getDia()==aux.fechacliente.getDia())
+                    {
+                        esigual = true;
+                    }
+                }
+            }
+        }
+    }
+    return esigual;
+}
+
+ostream& operator<<(ostream& s,const Cliente &c)
+{
+
+    Fecha fechaux(1,1,1);
+    fechaux = c.getFecha();
+    s << c.getNombre() << " (" << c.getDni() << " - " << fechaux.getDia() << " " << fechaux.getMes() << " " << fechaux.getAnio() <<")\n";
+
+    return s;
+}
+
+
+
+
+

@@ -25,7 +25,7 @@ public:
   static int getLimiteMinutos() { return ContratoTP::minutosTP; }
   static float getPrecio() { return ContratoTP::precioTP; }
   static void setTarifaPlana(int m, float p); //el el .cpp se pone la cabecera sin la palabra static
-
+  virtual void nada() const{;}
   //A RELLENAR POR EL ALUMNO...
     void ver() const;
     float factura()const;

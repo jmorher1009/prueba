@@ -52,6 +52,6 @@ ostream& operator<<(ostream &s, const ContratoMovil &c) {
                       // de esta forma se cree que es un objeto Contrato y muestra lo que indica el operator<< de Contrato
                       //... y a continuacion solo "me preocupo" de mostrar lo que es exclusivo del hijo
   s << " " << c.getMinutosHablados() << "m, " << c.getNacionalidad() << " " << c.getPrecioMinuto() << " - ";
-  s << c.factura() << "€";
+  s << c.factura() << "€\n";
   return s;
 }

@@ -103,3 +103,36 @@ void Empresa::cargarDatos()
     this->contratos[5] = new ContratoMovil(75547001, f2, 0.15, 80, "DANES"); //habla 80m a 0.15€/m
     this->contratos[6] = new ContratoTP(45999000, f3, 400); //habla 400m (300m a 10€, exceso 0.15€/m)
     this->ncon=7;
+}
+
+void Empresa::ver()const
+{
+
+    cout << "La empresa tiene " << this->ncli << " clientes y " << this->ncon << " contratos\n";
+    cout << "\nClientes:\n";
+    for(int i=0; i<ncli; i++)
+    {
+        cout << *clientes[i];
+    }
+    cout << "\nContratos:\n";
+    for(int i=0; i<ncon;i++)
+    {
+        cout << *contratos[i];
+    }
+}
+
+int Empresa::nContratosTP() const {
+    int n = 0;
+    for(int i=0; i<ncon;i++)
+    {
+        if(typeid(*contratos[i])==typeid(ContratoTP))
+            n++;
+    }
+    return n;
+}
+
+bool Empresa::cancelarContrato(int idContrato) {}
+
+bool Empresa::bajaCliente(long int dni) {}
+
+int Empresa::descuento(float porcentaje) const {}

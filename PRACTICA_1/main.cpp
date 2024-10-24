@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
         cout << "El Contrato 4 ha sido cancelado\n";
     else
         cout << "El Contrato 4 no existe\n";
-    ok=Yoigo.bajaCliente(75547001); //debe eliminar el cliente y sus 3 Contratos
+    /*ok=Yoigo.bajaCliente(75547001); //debe eliminar el cliente y sus 3 Contratos
     if (ok) cout << "El cliente 75547001 y sus Contratos han sido cancelados\n";
     else cout << "El cliente 75547001 no existe\n";
     Yoigo.ver();
@@ -37,6 +37,8 @@ int main(int argc, char *argv[])
     cout << "\nTras rebajar un 20% la tarifa de los ContratosMovil...";
     Yoigo.ver();
     cout <<"Yoigo tiene " << Yoigo. nContratosTP () << " Contratos de Tarifa Plana\n";
+   */
+
     system("PAUSE");
     return 0;
 }
