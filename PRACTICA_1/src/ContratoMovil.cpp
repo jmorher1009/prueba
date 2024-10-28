@@ -33,7 +33,7 @@ ContratoMovil::ContratoMovil(const ContratoMovil& c):Contrato(c.getDniContrato()
 void ContratoMovil::ver() const {
   Contrato::ver(); //IMPORTANTE: llamamos al ver que heredo de mi padre PARA QUE MUESTRE LO DEL PADRE
                    //... y a continuacion solo "me preocupo" de mostrar lo que es exclusivo del hijo
-  cout << " " << this->minutosHablados << "m, " << this->nacionalidad << " " << this->precioMinuto;
+  cout << " " << this->minutosHablados << "m, " << this->nacionalidad << " " << this->precioMinuto << "\n";
 }
 
 float ContratoMovil::factura() const {

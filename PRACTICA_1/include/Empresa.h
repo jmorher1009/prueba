@@ -5,6 +5,7 @@
 #include "Contrato.h" // definicion de la clase Contrato
 #include "ContratoTP.h" // definicion de la clase ContratoTP
 #include "ContratoMovil.h" // definicion de la clase ContratoMovil
+#include <string>
 using namespace std;
 class Empresa
 {
@@ -34,5 +35,6 @@ public:
     int descuento (float porcentaje) const; //devuelve a cuantos aplica el descuento
     int nContratosTP() const;
     void cargarDatos();//crea 3 clientes y 7 contratos. metodo creado para no
+
 }; //tener que meter datos cada vez que pruebo el programa
 #endif // EMPRESA_H

@@ -62,29 +62,75 @@ void Empresa::crearContrato()   //EL ALUMNO DEBE TERMINAR DE IMPLEMENTAR ESTE ME
 {
     long int dni;
     int pos;
-    cout << "Introduce DNI: ";
+    int dia, mes, anio;
+    int m;
+    int contr = 0;
+    Fecha f(0,0,0);
+    cout << "\nIntroduzca dni DNI: ";
     cin >> dni;
 //supongo que hay un metodo buscarCliente(dni) que devuelve -1 si no existe y si
 //existe devuelve la posicion del cliente en el array this->cli
     pos=this->buscarCliente(dni); //OJO ESTE METODO HAY QUE IMPLEMENTARLO
     if (pos==-1)   //el cliente no existe y hay que darlo de alta
     {
-        int dia, mes, anio;
+
         char nombre[100];
         Cliente *c; //NO CREO NINGUN CLIENTE SINO SOLO UN PUNTERO A CLIENTE
-        cout << "Introduce Nombre: ";
-        cin >> nombre;
-        cout << "Introduce Fecha (dd mm aaaa): ";
-        cin >> dia >> mes >> anio;
-        c=new Cliente(dni, nombre, Fecha(dia, mes, anio));
+        f.setFecha(dia,mes,anio);
+        c=new Cliente(dni, nombre, f);
         pos=this->altaCliente(c); //OJO HAY QUE IMPLEMENTARLO
     }
 //viendo cuanto vale la variable pos sé si el cliente se ha dado de alta o no
     if (pos!=-1)   //el cliente existe o se ha dado de alta
     {
-//PREGUNTAR QUE TIPO DE CONTRATO QUIERE Y LOS DATOS NECESARIOS
-//CREAR EL OBJETO CONTRATO CORRESPONDIENTE Y AÑADIR AL ARRAY
-//contratos UN PUNTERO A DICHO OBJETO
+        //PREGUNTAR QUE TIPO DE CONTRATO QUIERE Y LOS DATOS NECESARIOS
+        //CREAR EL OBJETO CONTRATO CORRESPONDIENTE Y AÑADIR AL ARRAY
+        //contratos UN PUNTERO A DICHO OBJETO
+        contr = 0;
+        cout << "Tipo de Contrato a abrir (1-Tarifa Plana, 2-Movil): ";
+        cin >> contr;
+
+        while(contr != 1 && contr != 2)
+        {
+            if(contr != 1 && contr != 2)
+            {
+                cout << "\Introduzca un valor correcto\n";
+                cin >> contr;
+            }
+        }
+
+        if(contr == 1) //ContratoTP
+        {
+            cout << "Fecha del contrato\n";
+            cout << "dia: ";
+            cin >> dia;
+            cout << "mes: ";
+            cin >> mes;
+            cout << "anio: ";
+            cin >> anio;
+            cout << "minutos hablados: ";
+            cin >> m;
+            ContratoTP(dni,f,m);
+        }
+        else if(contr == 2) //ContratoMovil
+        {
+            int m, p;
+            char nac[30];
+            cout << "Fecha del contrato\n";
+            cout << "dia: ";
+            cin >> dia;
+            cout << "mes: ";
+            cin >> mes;
+            cout << "anio: ";
+            cin >> anio;
+            cout << "minutos hablados: ";
+            cin >> m;
+            cout << "Precio minuto: ";
+            cin >> p;
+            cout << "Nacionalidad: ";
+            cin >> nac;
+            ContratoMovil(dni,f,p,m,nac);
+        }
     }
 }
 
@@ -115,15 +161,16 @@ void Empresa::ver()const
         cout << *clientes[i];
     }
     cout << "\nContratos:\n";
-    for(int i=0; i<ncon;i++)
+    for(int i=0; i<ncon; i++)
     {
-        cout << *contratos[i];
+        contratos[i]->ver();
     }
 }
 
-int Empresa::nContratosTP() const {
+int Empresa::nContratosTP() const
+{
     int n = 0;
-    for(int i=0; i<ncon;i++)
+    for(int i=0; i<ncon; i++)
     {
         if(typeid(*contratos[i])==typeid(ContratoTP))
             n++;
@@ -131,8 +178,11 @@ int Empresa::nContratosTP() const {
     return n;
 }
 
+
+
 bool Empresa::cancelarContrato(int idContrato) {}
 
 bool Empresa::bajaCliente(long int dni) {}
 
 int Empresa::descuento(float porcentaje) const {}
+
