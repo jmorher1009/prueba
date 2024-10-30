@@ -166,43 +166,42 @@
 1605099659 source:c:\users\amarquez\downloads\practica1b_ayuda_2020\src\fecha.cpp
 	"Fecha.h"
 
-1729687772 source:c:\users\usuario\desktop\practica_1\main.cpp
+1730298828 source:c:\users\usuario\desktop\practica_1\main.cpp
 	<cstdlib>
 	<iostream>
-	<locale>
 	<iomanip>
 	"Fecha.h"
-	"Contrato.h"
-	"ContratoTP.h"
-	"ContratoMovil.h"
-
-1729687902 c:\users\usuario\desktop\practica_1\include\fecha.h
-	<iostream>
-
-1604498289 c:\users\usuario\desktop\practica_1\include\cliente.h
-	<iostream>
-	"Fecha.h"
-
-1542152347 c:\users\usuario\desktop\practica_1\include\contrato.h
-	<iostream>
-	"Fecha.h"
-
-1729687882 c:\users\usuario\desktop\practica_1\include\contratomovil.h
-	<iostream>
-	"Fecha.h"
-	"Contrato.h"
-
-1542145406 source:c:\users\usuario\desktop\practica_1\src\cliente.cpp
-	<cstdlib>
-	<cstring>
-	<iomanip>
-	<sstream>
 	"Cliente.h"
+	"Contrato.h"
+	"ContratoTP.h"
+	"ContratoMovil.h"
+	"Empresa.h"
 
-1542146570 source:c:\users\usuario\desktop\practica_1\src\contrato.cpp
+1730132986 c:\users\usuario\desktop\practica_1\include\fecha.h
+	<iostream>
+
+1730132986 c:\users\usuario\desktop\practica_1\include\cliente.h
+	<iostream>
+	<string.h>
+	"Fecha.h"
+
+1730132986 c:\users\usuario\desktop\practica_1\include\contrato.h
+	<iostream>
+	"Fecha.h"
+
+1730132986 c:\users\usuario\desktop\practica_1\include\contratomovil.h
+	<iostream>
+	"Fecha.h"
 	"Contrato.h"
 
-1729687865 source:c:\users\usuario\desktop\practica_1\src\contratomovil.cpp
+1730132986 source:c:\users\usuario\desktop\practica_1\src\cliente.cpp
+	"Cliente.h"
+	"Fecha.h"
+
+1730132986 source:c:\users\usuario\desktop\practica_1\src\contrato.cpp
+	"Contrato.h"
+
+1730298301 source:c:\users\usuario\desktop\practica_1\src\contratomovil.cpp
 	<iostream>
 	<cstdlib>
 	<cstring>
@@ -210,15 +209,15 @@
 	"Contrato.h"
 	"ContratoMovil.h"
 
-1729687838 source:c:\users\usuario\desktop\practica_1\src\contratotp.cpp
+1730298294 source:c:\users\usuario\desktop\practica_1\src\contratotp.cpp
 	"ContratoTP.h"
 
-1729687820 c:\users\usuario\desktop\practica_1\include\contratotp.h
+1730132986 c:\users\usuario\desktop\practica_1\include\contratotp.h
 	<iostream>
 	"Fecha.h"
 	"Contrato.h"
 
-1729687916 source:c:\users\usuario\desktop\practica_1\src\fecha.cpp
+1730132986 source:c:\users\usuario\desktop\practica_1\src\fecha.cpp
 	"Fecha.h"
 
 1729892477 source:c:\users\chema\desktop\otros reps\prueba\practica_1\main.cpp
@@ -284,6 +283,18 @@
 	"Fecha.h"
 
 1730055602 source:c:\users\chema\desktop\otros reps\prueba\practica_1\src\empresa.cpp
+	"Empresa.h"
+	"Contrato.h"
+
+1730297416 c:\users\usuario\desktop\practica_1\include\empresa.h
+	"Fecha.h"
+	"Cliente.h"
+	"Contrato.h"
+	"ContratoTP.h"
+	"ContratoMovil.h"
+	<string>
+
+1730297396 source:c:\users\usuario\desktop\practica_1\src\empresa.cpp
 	"Empresa.h"
 	"Contrato.h"
 
