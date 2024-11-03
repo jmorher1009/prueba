@@ -341,8 +341,12 @@ bool eliminado = false;
 
 int Empresa::descuento(float porcentaje) const{
 
+    porcentaje= 1-porcentaje/100;
     for(int i=0; i<ncon;i++){
-        this->contratos[i]->()
+        if(ContratoMovil *aux = dynamic_cast<ContratoMovil*>(contratos[i]))
+        {
+            aux->setPrecioMinuto(aux->getPrecioMinuto()*porcentaje);
+        }
     }
 }
 
