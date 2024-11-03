@@ -340,13 +340,15 @@ bool eliminado = false;
 }
 
 int Empresa::descuento(float porcentaje) const{
-
+int aplica_descuento = 0;
     porcentaje= 1-porcentaje/100;
     for(int i=0; i<ncon;i++){
         if(ContratoMovil *aux = dynamic_cast<ContratoMovil*>(contratos[i]))
         {
             aux->setPrecioMinuto(aux->getPrecioMinuto()*porcentaje);
+            aplica_descuento++;
         }
     }
+    return aplica_descuento;
 }
 
