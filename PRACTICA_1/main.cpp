@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     Yoigo.descuento(20);
     cout << "\nTras rebajar un 20% la tarifa de los ContratosMovil...\n";
     Yoigo.ver();
-    cout <<"Yoigo tiene " << Yoigo.nContratosTP() << " Contratos de Tarifa Plana\n";
+    cout <<"\nYoigo tiene " << Yoigo.nContratosTP() << " Contratos de Tarifa Plana\n";
     system("PAUSE");
     return 0;
 }
