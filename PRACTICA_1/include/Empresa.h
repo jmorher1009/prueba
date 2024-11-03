@@ -27,6 +27,7 @@ public:
 //EL CONTRUCTOR DE COPIA Y EL OPERADOR DE ASIGNACION NO LO IMPLEMENTAMOS
 //PORQUE EXPLICITAMENTE SE INDICA EN LA PRACTICA QUE NO SE HAGA
 
+    int altaContrato(Contrato *c);
 
     void ver()const;
     void crearContrato();

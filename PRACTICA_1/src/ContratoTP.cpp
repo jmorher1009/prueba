@@ -25,7 +25,7 @@ ContratoTP::ContratoTP(const ContratoTP &aux):Contrato(aux.getDniContrato(),aux.
 
 void ContratoTP::ver() const{
     Contrato::ver();
-    cout <<" "<< this->minutosHablados << "m, " << minutosTP << " (" << precioTP << ")\n";
+    cout <<" "<< this->minutosHablados << "m, " << minutosTP << " (" << precioTP << ") - " << this->factura() << "€ \n";
 }
 
 float ContratoTP::factura()const{

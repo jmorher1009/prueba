@@ -45,20 +45,28 @@ int Empresa::altaCliente(Cliente *c)   //añade cliente apuntado por c al array c
 }
 //método auxiliar usado por el método crearContrato
 int Empresa::buscarCliente(long int dni) const   //si no existe devuelve -1 y si existe
+
 {
-//devuelve la posición del cliente
-//A IMPLEMENTAR POR EL ALUMNO... //con ese dni en el array clientes
-    int existe = -1;
-    int i=0;
-    while(i < ncli && existe ==-1)
+    bool encontrado = false;
+    int i = 0;
+    while(i<ncli && !encontrado)
     {
-        if (clientes[i]->getDni() == dni)
-            existe = clientes[i]->getDni();
-        else i++;
+        if(clientes[i]->getDni() == dni)
+        {
+            encontrado = true;
+        }
+        else
+        {
+            i++;
+        }
     }
-    return existe;
+    if(!encontrado){
+        i=-1;
+        }
+return i;
 }
-void Empresa::crearContrato()   //EL ALUMNO DEBE TERMINAR DE IMPLEMENTAR ESTE METODO
+
+/*void Empresa::crearContrato()   //EL ALUMNO DEBE TERMINAR DE IMPLEMENTAR ESTE METODO
 {
     long int dni;
     int pos;
@@ -114,7 +122,8 @@ void Empresa::crearContrato()   //EL ALUMNO DEBE TERMINAR DE IMPLEMENTAR ESTE ME
         }
         else if(contr == 2) //ContratoMovil
         {
-            int m, p;
+            int m;
+            float p;
             char nac[30];
             cout << "Fecha del contrato\n";
             cout << "dia: ";
@@ -133,7 +142,113 @@ void Empresa::crearContrato()   //EL ALUMNO DEBE TERMINAR DE IMPLEMENTAR ESTE ME
         }
     }
 }
+*/
+int Empresa::altaContrato(Contrato *c)
+{
+    if(this->ncon == nmaxcon)
+    {
+        Contrato **aux;
+        aux=contratos;
+        contratos= new Contrato*[nmaxcon*2];
+        for(int i=0; i<nmaxcon; i++)
+        {
+            contratos[i]=aux[i];
+        }
+        delete [] aux;
+        nmaxcon=nmaxcon*2;
 
+    }
+    contratos[ncon]=c;
+    ncon++;
+    return ncon-1;
+}
+
+void Empresa::crearContrato()
+{
+
+    long int dni;
+    int pos;
+    int tipoContrato;
+    int dia, mes, anio;
+    int minutos;
+    float precio;
+    char nacionalidad[30];
+    cout << "Introduce el DNI: ";
+    cin >> dni;
+    pos=buscarCliente(dni);
+    if(pos==-1)
+    {
+        int dia, mes, anio;
+        char nombre[100];
+        Cliente *c; //Puntero a cliente
+        cout << "Introduce el nombre: ";
+        cin.ignore();
+        cin.getline(nombre,50);
+        cout << "dia: ";
+        cin >> dia;
+        cout << "mes: ";
+        cin >> mes;
+        cout << "año: ";
+        cin >> anio;
+
+        c = new Cliente(dni, nombre, Fecha(dia,mes,anio));
+        pos=altaCliente(c);
+        if(pos==-1)
+        {
+            cout<<"\nLa empresa no admite mas clientes \n";
+            delete c;
+        }
+    }
+
+    Contrato * contr;
+    if(pos!=-1)
+    {
+        cout << "Tipo de Contrato (1-Tarifa Plana, 2-Movil): ";
+        cin >> tipoContrato;
+        while(tipoContrato!=1 && tipoContrato!=2)
+        {
+            cout << "\nIntroduce un tipo correcto (1-Tarifa Plana, 2-Movil): ";
+            cin >> tipoContrato;
+        }
+        if(tipoContrato==1)
+        {
+            cout<< "Fecha del contrato \n";
+            cout << "dia: ";
+            cin >> dia;
+            cout << "mes: ";
+            cin >> mes;
+            cout << "año: ";
+            cin >> anio;
+            cout << "Minutos hablados: ";
+            cin >> minutos;
+            cout << "\n";
+            contr = new ContratoTP(dni,Fecha(dia,mes,anio), minutos);
+
+        }
+        else if(tipoContrato==2)
+        {
+            cout<< "Fecha del contrato \n";
+            cout << "dia: ";
+            cin >> dia;
+            cout << "mes: ";
+            cin >> mes;
+            cout << "año: ";
+            cin >> anio;
+            cout << "Minutos hablados: ";
+            cin >> minutos;
+            cout << "Precio minuto: ";
+            cin>> precio;
+            cout << "Nacionalidad: ";
+            cin>> nacionalidad;
+            cout << "\n";
+            cin.ignore();
+            contr=new ContratoMovil(dni, Fecha(dia,mes,anio), precio, minutos, nacionalidad);
+
+        }
+        altaContrato(contr);
+    }
+
+}
 void Empresa::cargarDatos()
 {
     Fecha f1(29,2,2001), f2(31,1,2002), f3(1,2,2002);
@@ -154,8 +269,8 @@ void Empresa::cargarDatos()
 void Empresa::ver()const
 {
 
-    cout << "La empresa tiene " << this->ncli << " clientes y " << this->ncon << " contratos\n";
-    cout << "\nClientes:\n";
+    cout << "\nLa empresa tiene " << this->ncli << " clientes y " << this->ncon << " contratos\n";
+    cout << "Clientes:\n";
     for(int i=0; i<ncli; i++)
     {
         cout << *clientes[i];
@@ -180,9 +295,54 @@ int Empresa::nContratosTP() const
 
 
 
-bool Empresa::cancelarContrato(int idContrato) {}
+bool Empresa::cancelarContrato(int idContrato){
+    bool encontrado = false;
+    int i = 0;
+    while(!encontrado && i < this->ncon){
+        if(contratos[i]->getIdContrato() == idContrato)
+        {
+            encontrado = true;
+            //se procede a eliminar el contraro
+            for(int j=i; j<ncon-1; j++)
+            {
+                contratos[j]=contratos[j+1];
+            }
+            ncon--;
+        }
+        else{
+            i++;
+        }
+    }
+    return encontrado;
+}
 
-bool Empresa::bajaCliente(long int dni) {}
+bool Empresa::bajaCliente(long int dni) {
+bool eliminado = false;
+    int pos = buscarCliente(dni);
+    if(pos!=-1)
+    {
+        for(int i=ncon; i>=0; i--)
+        {
+            if(contratos[i]->getDniContrato()==dni)
+            {
+                cancelarContrato(contratos[i]->getIdContrato());
+            }
+        }
+                delete clientes[pos];
+        for(int i=pos; i<ncli-1; i++)
+        {
+            clientes[i]=clientes[i+1];
+        }
+        ncli--;
+        eliminado = true;
+    }
+    return eliminado;
+}
 
-int Empresa::descuento(float porcentaje) const {}
+int Empresa::descuento(float porcentaje) const{
+
+    for(int i=0; i<ncon;i++){
+        this->contratos[i]->()
+    }
+}
 
