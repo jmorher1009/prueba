@@ -22,7 +22,7 @@ order by nombre asc;
 
 --1.1
 select cia.nombre
-from mf.compaÃ±ia cia
+from mf.compañia cia
 where cia.web like '%et%com';
 --1.2
 select cli.nombre, cli.direccion 
