@@ -298,3 +298,69 @@
 	"Empresa.h"
 	"Contrato.h"
 
+1730731370 source:c:\users\usuario\desktop\prueba-main\practica_1\main.cpp
+	<cstdlib>
+	<iostream>
+	<iomanip>
+	"Fecha.h"
+	"Cliente.h"
+	"Contrato.h"
+	"ContratoTP.h"
+	"ContratoMovil.h"
+	"Empresa.h"
+
+1730731370 c:\users\usuario\desktop\prueba-main\practica_1\include\fecha.h
+	<iostream>
+
+1730731370 c:\users\usuario\desktop\prueba-main\practica_1\include\cliente.h
+	<iostream>
+	<string.h>
+	"Fecha.h"
+
+1730731370 c:\users\usuario\desktop\prueba-main\practica_1\include\contrato.h
+	<iostream>
+	"Fecha.h"
+
+1730731370 c:\users\usuario\desktop\prueba-main\practica_1\include\contratotp.h
+	<iostream>
+	"Fecha.h"
+	"Contrato.h"
+
+1730731370 c:\users\usuario\desktop\prueba-main\practica_1\include\contratomovil.h
+	<iostream>
+	"Fecha.h"
+	"Contrato.h"
+
+1730731370 c:\users\usuario\desktop\prueba-main\practica_1\include\empresa.h
+	"Fecha.h"
+	"Cliente.h"
+	"Contrato.h"
+	"ContratoTP.h"
+	"ContratoMovil.h"
+	<string>
+
+1730731370 source:c:\users\usuario\desktop\prueba-main\practica_1\src\cliente.cpp
+	"Cliente.h"
+	"Fecha.h"
+
+1730731370 source:c:\users\usuario\desktop\prueba-main\practica_1\src\contrato.cpp
+	"Contrato.h"
+
+1730731370 source:c:\users\usuario\desktop\prueba-main\practica_1\src\contratomovil.cpp
+	<iostream>
+	<cstdlib>
+	<cstring>
+	<iomanip>
+	"Contrato.h"
+	"ContratoMovil.h"
+
+1730731370 source:c:\users\usuario\desktop\prueba-main\practica_1\src\contratotp.cpp
+	"ContratoTP.h"
+
+1730731370 source:c:\users\usuario\desktop\prueba-main\practica_1\src\empresa.cpp
+	"Empresa.h"
+	"Contrato.h"
+
+1730731370 source:c:\users\usuario\desktop\prueba-main\practica_1\src\fecha.cpp
+	"Fecha.h"
+
