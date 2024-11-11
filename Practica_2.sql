@@ -22,7 +22,7 @@ order by nombre asc;
 
 --1.1
 select cia.nombre
-from mf.compaÒia cia
+from mf.compa√±ia cia
 where cia.web like '%et%com';
 --1.2
 select cli.nombre, cli.direccion 
@@ -71,31 +71,31 @@ where extract(year from cli.f_nac) between 1970 and 1985
     and cli.provincia = 'Huelva'
 order by ciudad asc, provincia desc;
 
---S2.1 Mostrar el cÛdigo y coste de las tarifas junto con el nombre de la compaÒÌa que las ofrecen, de aquellas
---tarifas cuya descripciÛn indique que otras personas deben estar tambiÈn en la misma compaÒÌa
-select t.compaÒia as codigo , t.coste, c.nombre
-from mf.compaÒia c
-inner join mf.tarifa t on c.cif = t.compaÒia
-where t.descripcion like '%en la compaÒÌa%';
+--S2.1 Mostrar el c√≥digo y coste de las tarifas junto con el nombre de la compa√±√≠a que las ofrecen, de aquellas
+--tarifas cuya descripci√≥n indique que otras personas deben estar tambi√©n en la misma compa√±√≠a
+select t.compa√±ia as codigo , t.coste, c.nombre
+from mf.compa√±ia c
+inner join mf.tarifa t on c.cif = t.compa√±ia
+where t.descripcion like '%en la compa√±√≠a%';
 
---S2.2 Nombre y n˙mero de telÈfonos de aquellos abonados con contrato que tienen tarifas inferiores a 0,20 Ä.
+--S2.2 Nombre y n√∫mero de tel√©fonos de aquellos abonados con contrato que tienen tarifas inferiores a 0,20 ‚Ç¨.
 
 select c.nombre, tf.numero
 from mf.cliente c inner join mf.telefono tf on c.dni = tf.cliente
-inner join mf.tarifa tar using(tarifa,compaÒia)
+inner join mf.tarifa tar using(tarifa,compa√±ia)
 where tar.coste < 0.20 and tf.tipo = 'C';
 
---S2.3 Obtener el cÛdigo de las tarifas, el nombre de las compaÒÌas, los n˙meros de telÈfono y los puntos, de
---aquellos telÈfonos que se contrataron en el aÒo 2006 y que hayan obtenido m·s de 200 puntos.
+--S2.3 Obtener el c√≥digo de las tarifas, el nombre de las compa√±√≠as, los n√∫meros de tel√©fono y los puntos, de
+--aquellos tel√©fonos que se contrataron en el a√±o 2006 y que hayan obtenido m√°s de 200 puntos.
 
 select tar.tarifa, c.nombre, tf.numero ,tf.puntos
-from mf.compaÒia c 
-    inner join mf.telefono tf on c.nombre = tf.compaÒia
-    inner join mf.tarifa tar on tf.tarifa = tar.tarifa and tar.compaÒia = tf.compaÒia
+from mf.compa√±ia c 
+    inner join mf.telefono tf on c.nombre = tf.compa√±ia
+    inner join mf.tarifa tar on tf.tarifa = tar.tarifa and tar.compa√±ia = tf.compa√±ia
 where tf.puntos > 200 and to_char(tf.f_contrato,'yyyy') = '2006';
 
---S2.4 Obtener los n˙meros de telÈfono (origen y destino), asÌ como el tipo de contrato, de los clientes que alguna
---vez hablaron por telÈfono entre las 8 y las 10 de la maÒana
+--S2.4 Obtener los n√∫meros de tel√©fono (origen y destino), as√≠ como el tipo de contrato, de los clientes que alguna
+--vez hablaron por tel√©fono entre las 8 y las 10 de la ma√±ana
 
 select llam.tf_origen, llam.tf_destino, tf_o.tipo as tipo_origen, tf_d.tipo as tipo_destino
 from mf.llamada llam 
@@ -104,9 +104,9 @@ from mf.llamada llam
     inner join mf.cliente cli on cli.dni = tf_o.cliente
 where to_char(llam.fecha_hora, 'hh:mm')between '08:00' and '10:00';
 
---S2.5 Interesa conocer los nombres y n˙meros de telÈfono de los clientes (origen y destino) que, perteneciendo
---a compaÒÌas distintas, mantuvieron llamadas que superaron los 15 minutos. Se desea conocer, tambiÈn, la
---fecha y la hora de dichas llamadas asÌ como la duraciÛn de esas llamadas
+--S2.5 Interesa conocer los nombres y n√∫meros de tel√©fono de los clientes (origen y destino) que, perteneciendo
+--a compa√±√≠as distintas, mantuvieron llamadas que superaron los 15 minutos. Se desea conocer, tambi√©n, la
+--fecha y la hora de dichas llamadas as√≠ como la duraci√≥n de esas llamadas
 
 select cli_o.nombre as nombre_origen, tf_o.numero as n_orig, tf_d.numero as n_dest,cli_d.nombre as nombre_destino, llam.duracion, llam.fecha_hora
 from mf.cliente cli_o
@@ -114,24 +114,24 @@ from mf.cliente cli_o
     inner join mf.llamada llam on tf_o.numero = llam.tf_origen
     inner join mf.telefono tf_d on llam.tf_destino = tf_d.numero
     inner join mf.cliente cli_d on cli_d.dni = tf_d.cliente
-where llam.duracion > 15*60 and tf_o.compaÒia <> tf_d.compaÒia;
+where llam.duracion > 15*60 and tf_o.compa√±ia <> tf_d.compa√±ia;
 
 -- Ejemplo operador IN y NOT IN =,<=,<,>=,>,ALL,ANY
 select *
 from mf.telefono tlf
-where tlf.compaÒia =ANY(select comp.cif
-                        from mf.compaÒia comp
-                        where nombre = 'Kietostar' or nombre = 'PetafÛn');
+where tlf.compa√±ia =ANY(select comp.cif
+                        from mf.compa√±ia comp
+                        where nombre = 'Kietostar' or nombre = 'Petaf√≥n');
                         
                         
---S3.1 Obtener la fecha (dÌa-mes-aÒo) en la que se realizÛ la llamada de mayor duraciÛn
+--S3.1 Obtener la fecha (d√≠a-mes-a√±o) en la que se realiz√≥ la llamada de mayor duraci√≥n
 
 select to_char(ll.fecha_hora, 'dd-mm-yyyy') as fecha
 from mf.llamada ll
-where ll.duracion >=ALL(select ll2.duracion     --mayor o igual que todas (es decir la de m·xima duraciÛn)
+where ll.duracion >=ALL(select ll2.duracion     --mayor o igual que todas (es decir la de m√°xima duraci√≥n)
                          from mf.llamada ll2);
                          
---S3.2 Obtener el nombre de los abonados de la compaÒÌa ëAotraí con el mismo tipo de tarifa que la del telefono ì654123321î            
+--S3.2 Obtener el nombre de los abonados de la compa√±√≠a ‚ÄòAotra‚Äô con el mismo tipo de tarifa que la del telefono ‚Äú654123321‚Äù            
             
 select cli.nombre
 from mf.cliente cli inner join mf.telefono tf on tf.cliente = cli.dni
@@ -140,15 +140,15 @@ where tf.tarifa in(
                      from mf.telefono tf2
                      where tf2.numero = '654123321'
                      )
-and tf.compaÒia in(
+and tf.compa√±ia in(
                     select cia.cif
-                    from mf.compaÒia cia
+                    from mf.compa√±ia cia
                     where cia.nombre = 'Aotra'
                     );
 
 
---S3.3 Mostrar, utilizando para ello una subcobsulta, el n˙mero de telÈfono, fecha de contrato y tipo de los
---abonados que han llamado a telÈfonos de clientes de fuera de la provincia de La CoruÒa durante el mes de
+--S3.3 Mostrar, utilizando para ello una subcobsulta, el n√∫mero de tel√©fono, fecha de contrato y tipo de los
+--abonados que han llamado a tel√©fonos de clientes de fuera de la provincia de La Coru√±a durante el mes de
 --octubre de 2006
 
 select distinct tlf2.numero, tlf2.f_contrato, tlf2.tipo
@@ -156,57 +156,57 @@ from mf.llamada ll inner join mf.telefono tlf2 on(tlf2.numero = ll.tf_origen)
 where ll.tf_destino in(
                         select tlf.numero
                         from mf.cliente cli inner join mf.telefono tlf on(tlf.cliente=cli.dni)
-                        where cli.provincia <> 'La CoruÒa');
+                        where cli.provincia <> 'La Coru√±a');
                         
                         
 
---S3.4 Se necesita conocer el nombre de los clientes que tienen telÈfonos con tarifa ìd˙oî pero no ìautÛnomosî.
---Utiliza subconsultas para obtener la soluciÛn.
+--S3.4 Se necesita conocer el nombre de los clientes que tienen tel√©fonos con tarifa ‚Äúd√∫o‚Äù pero no ‚Äúaut√≥nomos‚Äù.
+--Utiliza subconsultas para obtener la soluci√≥n.
 
 select cli.nombre
 from mf.cliente cli inner join mf.telefono tf on cli.dni = tf.cliente
 where tf.tarifa in(
                     select tar.tarifa
                     from mf.tarifa tar
-                    where tar.tarifa = 'd˙o'
+                    where tar.tarifa = 'd√∫o'
                     )
 and tf.tarifa not in(
                     select tar.tarifa
                     from mf.tarifa tar
-                    where tar.tarifa = 'autÛnomos'
+                    where tar.tarifa = 'aut√≥nomos'
     );   
     
---S3.5 Obtener mediante subconsultas los nombres de clientes y n˙meros de telÈfono que aquellos que hicieron
---llamadas a telÈfonos de la compaÒÌa PetafÛn pero no Aotra
+--S3.5 Obtener mediante subconsultas los nombres de clientes y n√∫meros de tel√©fono que aquellos que hicieron
+--llamadas a tel√©fonos de la compa√±√≠a Petaf√≥n pero no Aotra
 
 select cli.nombre, tf.numero
 from mf.cliente cli inner join mf.telefono tf on cli.dni = tf.cliente 
 where tf.numero in(
                     select ll.tf_origen
                     from mf.llamada ll inner join mf.telefono tf_dest on tf_dest.numero = ll.tf_destino
-                    where tf_dest.compaÒia in(
+                    where tf_dest.compa√±ia in(
                                             select cia.cif
-                                            from mf.compaÒia cia
-                                            where cia.nombre = 'PetafÛn'
+                                            from mf.compa√±ia cia
+                                            where cia.nombre = 'Petaf√≥n'
                         )
                     )
         and tf.numero not in(
                     select ll.tf_origen
                     from mf.llamada ll inner join mf.telefono tf_dest on tf_dest.numero = ll.tf_destino
-                    where tf_dest.compaÒia in(
+                    where tf_dest.compa√±ia in(
                                             select cia.cif
-                                            from mf.compaÒia cia
+                                            from mf.compa√±ia cia
                                             where cia.nombre = 'Aotra'
                         )
                     );
                     
                         
---S3.6 Nombre de los clientes de la compaÒÌa Kietostar que hicieron las llamadas de mayor duraciÛn en
+--S3.6 Nombre de los clientes de la compa√±√≠a Kietostar que hicieron las llamadas de mayor duraci√≥n en
 --septiembre de 2006
 
 select distinct c.nombre, ll.tf_origen, ll.tf_destino,ll.duracion,to_char(ll.fecha_hora,'mm/yyyy') as Fecha,cia.nombre
 from mf.cliente c inner join mf.telefono tf on tf.cliente=c.dni
-    inner join mf.compaÒia cia on cia.cif = tf.compaÒia
+    inner join mf.compa√±ia cia on cia.cif = tf.compa√±ia
     inner join mf.llamada ll on tf.numero = ll.tf_origen
 where to_char(fecha_hora,'mm/yyyy')='09/2006'
       and cia.nombre = 'Kietostar'
@@ -216,16 +216,16 @@ where to_char(fecha_hora,'mm/yyyy')='09/2006'
                         where to_char(fecha_hora,'mm/yyyy')='09/2006'
                               and cia.nombre = 'Kietostar');
 
---S3.7 Se necesita conocer el nombre de los clientes que tienen telÈfonos con fecha de contrataciÛn anterior a
---alguno de los telÈfonos de RamÛn MartÌnez Sabina, excluido, claro, el propio RamÛn MartÌnez Sabina
+--S3.7 Se necesita conocer el nombre de los clientes que tienen tel√©fonos con fecha de contrataci√≥n anterior a
+--alguno de los tel√©fonos de Ram√≥n Mart√≠nez Sabina, excluido, claro, el propio Ram√≥n Mart√≠nez Sabina
 
 
 select c.nombre, to_char(tf.f_contrato, 'mm/yyyy') as f_contrato
 from mf.telefono tf inner join mf.cliente c on c.dni = tf.cliente
-where c.nombre <> 'RamÛn MartÌnez Sabina' and tf.f_contrato < any(
+where c.nombre <> 'Ram√≥n Mart√≠nez Sabina' and tf.f_contrato < any(
                         select tel.f_contrato
                         from mf.telefono tel inner join mf.cliente cli on cli.dni = tel.cliente
-                        where cli.nombre = 'RamÛn MartÌnez Sabina');
+                        where cli.nombre = 'Ram√≥n Mart√≠nez Sabina');
      
 --ejemplos de consultas correlacionadas
 --no puedes realizar las consultas por separado 
@@ -235,7 +235,7 @@ where exists (select *
              from mf.telefono tf
              where tf.cliente = cli.dni); 
              
---S4.1 Utilizando consultas correlacionadas, mostrar el nombre de los abonados que han llamado el dÌa ë16/10/06í
+--S4.1 Utilizando consultas correlacionadas, mostrar el nombre de los abonados que han llamado el d√≠a ‚Äò16/10/06‚Äô
 
 select cli.nombre
 from mf.cliente cli inner join mf.telefono tf on cli.dni = tf.cliente
@@ -254,12 +254,12 @@ where exists(select *
             where llam.tf_origen = tf.numero
                 and llam.duracion < 90);
 
---S4.3 Utilizando consultas correlacionadas, obtener el nombre de los abonados de la compaÒÌa ëKietoStarí que no
+--S4.3 Utilizando consultas correlacionadas, obtener el nombre de los abonados de la compa√±√≠a ‚ÄòKietoStar‚Äô que no
 --hicieron ninguna llamada el mes de septiembre
  
 select cli.nombre
 from mf.cliente cli inner join mf.telefono tf on cli.dni = tf.cliente
-                    inner join mf.compaÒia cia on tf.compaÒia = cia.cif
+                    inner join mf.compa√±ia cia on tf.compa√±ia = cia.cif
 where cia.nombre = 'Kietostar'
 and not exists(select *
                 from mf.llamada llam
@@ -267,7 +267,7 @@ and not exists(select *
                     and extract(month from llam.fecha_hora) = 09);
                 
 --S4.4 Utilizando consultas correlacionadas, mostrar todos los datos de los telefonos que hayan llamado al
---n˙mero 654234234 pero no al 666789789
+--n√∫mero 654234234 pero no al 666789789
                     
 select *
 from mf.telefono tf
@@ -280,17 +280,96 @@ where exists(select *
             where llam.tf_destino = 666789789
             and llam.tf_origen = tf.numero);
 
---S4.5 Utilizando consultas correlacionadas, obtener el nombre y n˙mero de telÈfono de los clientes de la
---compaÒÌa Kietostar que no han hecho llamadas a otros telÈfonos de la misma compaÒÌa
+--S4.5 Utilizando consultas correlacionadas, obtener el nombre y n√∫mero de tel√©fono de los clientes de la
+--compa√±√≠a Kietostar que no han hecho llamadas a otros tel√©fonos de la misma compa√±√≠a
 
 select cli.nombre, tf.numero
 from mf.cliente cli inner join mf.telefono tf on tf.cliente = cli.dni
-                    inner join mf.compaÒia cia on cia.cif = tf.compaÒia
+                    inner join mf.compa√±ia cia on cia.cif = tf.compa√±ia
 where cia.nombre = 'Kietostar'
 and not exists(select *
                 from mf.llamada llam inner join mf.telefono tf1 on tf1.numero = llam.tf_destino
                 where llam.tf_origen = tf.numero
-                and tf1.compaÒia = tf.compaÒia);
+                and tf1.compa√±ia = tf.compa√±ia);
 
-       
-                
+
+
+--ejemploc count(*)
+select count(*)
+from mf.cliente cli;
+
+select comp.nombre
+from mf.compa√±ia comp
+where (select count(*)
+        from mf.telefono tlf
+        where tlf.compa√±ia = comp.cif) >= 3; --compa√±ias con m√°s de tres telefonos
+
+
+--clientes con mas de una linea de tel√©fono
+select cli.nombre, count(*)
+from mf.cliente cli inner join mf.telefono tf on tf.cliente = cli.dni
+group by cli.nombre
+having count(*) > 1;
+
+
+
+--S5.1 Mostrar la compa√±√≠a con la que se realizaron m√°s llamadas durante el d√≠a 16/10/06
+
+select com.nombre, count(*) as num_llamadas
+from mf.compa√±ia com inner join mf.telefono tf on com.cif = tf.compa√±ia
+        inner join mf.llamada ll on tf.numero = ll.tf_origen
+where to_char(ll.fecha_hora , 'dd/mm/yy') = '16/10/06'
+group by com.nombre
+having count(*) >= ALL(select max(count(*)) -- esta consulta se hace simplemente para
+                        from mf.compa√±ia cia inner join mf.telefono tel on cia.cif =tel.compa√±ia
+                                inner join mf.llamada llam1 on tel.numero = llam1.tf_origen
+                                where to_char(llam1.fecha_hora , 'dd/mm/yy') = '16/10/06'
+                                group by cia.nombre);
+
+--S5.2 Obtener los n√∫meros de tel√©fono y los nombres de los abonados que han llamado a todos los n√∫meros a los
+--que se llam√≥ desde el 654345345 en octubre de 2006
+
+--S5.3 Mostrar el nombre de cada cliente junto con coste total de las llamadas que realiza con cada compa√±ia. El
+--resultado debe mostrarse ordenado descendentemente por cliente y ascendentemente por compa√±ia
+
+select cli.nombre, cia.nombre as compa√±ia, count(*) as num_llamadas, sum(llam.duracion * tar.coste /60) as coste_llamada
+from mf.cliente cli inner join mf.telefono tf on tf.cliente = cli.dni
+        inner join mf.compa√±ia cia on tf.compa√±ia = cia.cif
+        inner join mf.tarifa tar on tf.tarifa = tar.tarifa and tf.compa√±ia = tar.compa√±ia
+        inner join mf.llamada llam on llam.tf_origen = tf.numero
+group by cli.nombre, cia.nombre
+order by cli.nombre desc, cia.nombre asc;
+        
+
+--S5.4 Para cada cliente residente en la provincia de 'La Coru√±a', mostrar la duraci√≥n de todas las llamadas
+--realizadas a clientes residentes en 'Ja√©n'
+
+select cli_o.nombre,sum(llam.duracion) as duraci√≥n_llamadas , count(*) as num_llamadas
+from mf.cliente cli_o inner join mf.telefono tf_o on cli_o.dni = tf_o.cliente
+                     inner join mf.llamada llam on llam.tf_origen = tf_o.numero
+                     inner join mf.telefono tf_d on tf_d.numero = llam.tf_destino
+                     inner join mf.cliente cli_d on tf_d.cliente = cli_d.dni
+where cli_o.provincia = 'La Coru√±a' and cli_d.provincia = 'Ja√©n'
+group by cli_o.nombre;
+
+--S5.5 Mostrar los nombres de todos los clientes que hayan realizado m√°s de 5 llamadas
+
+select cli.nombre, count(*) as num_llamadas
+from mf.cliente cli inner join mf.telefono tf on tf.cliente = cli.dni
+                    inner join mf.llamada llam on llam.tf_origen = tf.numero
+group by cli.nombre
+having count(*) > 5;
+
+--S5.6 Mostrar el nombre de aquellos clientes que hayan contratado con cualquier compa√±√≠a, de media, una tarifa
+--superior a la tarifa media total.
+
+select cli.nombre, cia.nombre
+from mf.cliente cli inner join mf.telefono tf on tf.cliente = cli.dni
+                    inner join mf.tarifa tar on tar.tarifa = tf.tarifa and tar.compa√±ia = tf.compa√±ia
+                    inner join mf.compa√±ia cia on tf.compa√±ia = cia.cif
+group by cli.nombre, cia.nombre
+having avg(tar.coste) > (select avg(tar2.coste)
+                    from mf.tarifa tar2);
+
+--S5.7 Mostrar los nombres de los clientes que hayan realizado llamadas a telefonos de la compa√±ia 'Kietostar'
+--por un coste menor de 100‚Ç¨
