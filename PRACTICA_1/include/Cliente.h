@@ -34,7 +34,7 @@ public:
     }
 
     bool operator==(const Cliente &aux) const;
-
+    Cliente& operator=(const Cliente& c);
 };
 
 ostream& operator<<(ostream& s, const Cliente &c);

@@ -22,6 +22,17 @@ void Cliente::setNombre(char* nom)
 
 }
 
+Cliente& Cliente::operator=(const Cliente& c) {
+    if (this != &c) { //si no es x=x
+        this->dni=c.dni;
+        delete [] this->nombre;
+        this->nombre=new char[strlen(c.nombre)+1];
+        strcpy(this->nombre, c.nombre);
+        this->fechacliente = c.fechacliente;
+    }
+    return *this;
+}
+
 /*void Cliente::setFecha(Fecha &&fechaux){
     this->fechacliente.setfecha(fechaux.getDia(),fechaux.getMes(),fechaux.getAnio());
 }
@@ -60,14 +71,13 @@ bool Cliente::operator==(const Cliente &aux)const
 
 ostream& operator<<(ostream& s,const Cliente &c)
 {
-
+    const char *meses[] = {"", "ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"};
     Fecha fechaux(1,1,1);
     fechaux = c.getFecha();
-    s << c.getNombre() << " (" << c.getDni() << " - " << fechaux.getDia() << " " << fechaux.getMes() << " " << fechaux.getAnio() <<")\n";
+    s << c.getNombre() << " (" << c.getDni() << " - " << (fechaux.getDia() < 10 ? "0" : "") << fechaux.getDia() << " " << meses[fechaux.getMes()] << " " << fechaux.getAnio() <<")\n";
 
     return s;
 }
-
 
 
 

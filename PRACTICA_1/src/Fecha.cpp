@@ -1,104 +1,113 @@
 #include "Fecha.h"
 
-Fecha::Fecha(const int &dia, const int &m, const int &anio) {
-    this->setFecha(dia, m, anio); //el cogido es el mismo que el del metodo setFecha
+Fecha::Fecha(const int &dia,const int &mes,const int &anio)// debe ser con "const int &aux" en  vez de &&
+{
+    this->setFecha(dia,mes,anio);
 }
 
-void Fecha::setFecha(const int &dia, const int &mes, const int &a) {
-/*
-  if ((mes == 1) || (mes == 3) || (mes == 5) ....
-      dmax=31;
-  else if ((mes == 4) || (mes == 6) || (mes == 9) ....
-      dmax=30;
-  else if (mes == 2)
-      dmax=28;
 
-  switch (mes) {
-    case 1:
-    case 3:
-    case 5:
-       ...
-            dmax=31;
-            break;
-    case 4:
-    case 6:
-    case 9:
-       ...
-            dmax=30;
-            break;
-    default:
-            dmax=28;
-            break;
-  }
-*/
-//ES MAS RAPIDO Y COMODO USAR UN ARRAY QUE GUARDE LOS DIAS DE CADA MES...
-    int dmax, diaMes[] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
-    this->anio=a; //VIP debo asignar año para que al llamar a bisiesto() tenga el año bien
-    if (this->bisiesto())
-        diaMes[2]=29;
-
-    if (mes<1)  //si el mes es incorrecto
-      this->mes=1;
-    else if (mes>12) //si el mes es incorrecto
-      this->mes=12;
-    else
-      this->mes=mes;
-    dmax=diaMes[this->mes]; //una vez fijado el mes veo cuantos dias tiene ese mes como maximo
-
-    if (dia>dmax) //si dia es superior al numero de dias de dicho mes
-      this->dia=dmax;
-    else if (dia<1) //si dia es inferior a 1
-      this->dia=1;
-    else
-      this->dia=dia;
+bool Fecha::bisiesto() const
+{
+    return (((this->anio%4==0 && this->anio%100!=0) || this->anio%400==0)?(true):(false));
 }
 
-bool Fecha::bisiesto() const {
-  if (this->anio%4==0) //esto no es exacto... corregidlo ustedes
-    return true;
-  else
-    return false;
-}
+void Fecha::setFecha(const int &d,const int &m,const int &a)
+{
+    int meses[13]= {0,31,28,31,30,31,30,31,31,30,31,30,31};
 
-void Fecha::ver() const {
-  if (this->dia < 10)
-    cout << "0";
-  cout << this->dia << "/";
-  if (this->mes < 10)
-    cout << "0";
-  cout << this->mes << "/" << this->anio;
-}
+    //Aï¿½O
 
-Fecha Fecha::operator++() {   //++f
-  int dmax, diaMes[] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
-  if (this->bisiesto()) //si el año es bisiesto febrero tiene 29 dias
-    diaMes[2]=29;
-  dmax=diaMes[this->mes];
-  this->dia++;
-  if (this->dia>dmax) { //si al incrementar dia superamos el numero de dias de dicho mes
-    this->dia=1;      //pasamos a 1
-    this->mes++;      //del mes siguiente
-    if (this->mes>12) { //si al incrementar mes pasamos de 12 meses
-      this->mes=1;    //pasamos al mes 1
-      this->anio++;   //del año siguiente
+    this->anio = a; //debemos asignar el aï¿½o primero antes de comprobar si es bisiesto
+    if(this->bisiesto()) // aqui comprueba si es bisiesto el aï¿½o
+    {
+        meses[2]=29;
     }
-  }
-  return *this; //devolvemos el objeto fecha ya incrementado
+
+    //MESES
+
+    if(m < 1)          //mes incorrecto
+        this->mes = 1;
+    else if(m > 12)    //mes incorrecto
+        this->mes = 12;
+    else this->mes = m;//mes correcto
+
+    //Dï¿½AS
+
+    int dia_tope = meses[this->mes]; // comprobamos cuantos dï¿½as tiene el mes
+
+    if(dia_tope < d)           //dï¿½a mayor al lï¿½mite
+        this->dia = dia_tope;
+    else if(d < 1)             //dï¿½a menor al lï¿½mite
+        this->dia = 1;
+    else
+        this->dia = d;         //dï¿½a correcto
 }
 
-//RESTO DE METODOS Y FUNCIONES A RELLENAR POR EL ALUMNO...
-
-ostream& operator<<(ostream &s, const Fecha &f) {
-  const char *meses[] = {"", "ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"};
-  if (f.dia < 10)
-    s << "0";
-  s << f.dia << " " << meses[f.mes] << " " << f.anio;
-  return s;
+void Fecha::ver() const
+{
+    const char *meses[] = {"", "ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"};
+    cout << (this->getDia() < 10 ? "0" : "") << this->getDia() << " " << meses[this->getMes()] << " " << this->getAnio() << " ";
 }
 
-Fecha Fecha::operator+(const int &i) const{
-    Fecha a(*this);
-    for(int j = 0; j<i; j++)
-        ++a;
-    return a;
+Fecha Fecha::operator++() //++i
+{
+    int meses[13]={0,31,28,31,30,31,30,31,31,30,31,30,31};
+    if(this->bisiesto())
+        meses[2] = 29;
+    int dia_tope = meses[this->mes];
+
+    if (this->dia == dia_tope)
+    {
+        if(this->mes == 12)
+        {
+            this->anio++;       //caso : 31 / 12 / YYYY
+            this->mes = 1;
+        }
+        else{
+            this->mes++;        //caso : dia_tope / mes<12 / YYYY
+        }
+        this->dia=1;
+    }
+    else{
+        this->dia++;            //caso : dia<dia_tope / mes<12 / YYYY
+    }
+    return(*this);              //devuelve una copia del objeto actual, pero ya incrementado
 }
+
+Fecha Fecha::operator++(int a) //i++
+{
+     const Fecha aux(*this);
+        this->operator++();
+    return aux; //devuelvo el que no estï¿½ incrementado
+}
+
+
+Fecha operator+(const int &aux,const Fecha &fecha_aux){ //cout << 2 + fecha
+
+//uso la funciï¿½n amiga porque para sumar dos fechas hacen falta fos parï¿½metros,
+// y en un mï¿½todo no se puede sobrecargar con mï¿½s de 1
+
+Fecha x(fecha_aux);
+for(int n = 0; n < aux; n++){
+    x++;
+}
+return x;
+}
+
+Fecha Fecha::operator+(const int &aux) const // cout << fecha + 2 << endl;
+{
+    Fecha x(*this);
+
+    for (int n = 0; n < aux; n++) {
+    x++;
+}
+return x;
+
+}
+
+ostream& operator<<(ostream& s, const Fecha &f) {
+const char *meses[] = {"", "ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"};
+
+s << (f.getDia() < 10 ? "0" : "") << f.getDia() << " " << meses[f.getMes()] << " " << f.getAnio();
+
+return s;}

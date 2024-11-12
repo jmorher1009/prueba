@@ -220,7 +220,18 @@
 1730132986 source:c:\users\usuario\desktop\practica_1\src\fecha.cpp
 	"Fecha.h"
 
-1730649710 source:c:\users\chema\desktop\otros reps\prueba\practica_1\main.cpp
+1731255857 source:c:\users\chema\desktop\otros reps\prueba\practica_1\main.cpp
+	<cstdlib>
+	<iostream>
+	"Fecha.h"
+	"Cliente.h"
+	<cstdlib>
+	<iostream>
+	<iomanip>
+	"Fecha.h"
+	"Contrato.h"
+	"ContratoTP.h"
+	"ContratoMovil.h"
 	<cstdlib>
 	<iostream>
 	<iomanip>
@@ -231,19 +242,19 @@
 	"ContratoMovil.h"
 	"Empresa.h"
 
-1729708272 c:\users\chema\desktop\otros reps\prueba\practica_1\include\fecha.h
+1731243733 c:\users\chema\desktop\otros reps\prueba\practica_1\include\fecha.h
 	<iostream>
 
-1729777626 c:\users\chema\desktop\otros reps\prueba\practica_1\include\cliente.h
+1731253467 c:\users\chema\desktop\otros reps\prueba\practica_1\include\cliente.h
 	<iostream>
 	<string.h>
 	"Fecha.h"
 
-1729718042 c:\users\chema\desktop\otros reps\prueba\practica_1\include\contrato.h
+1731255125 c:\users\chema\desktop\otros reps\prueba\practica_1\include\contrato.h
 	<iostream>
 	"Fecha.h"
 
-1729718060 c:\users\chema\desktop\otros reps\prueba\practica_1\include\contratotp.h
+1731254237 c:\users\chema\desktop\otros reps\prueba\practica_1\include\contratotp.h
 	<iostream>
 	"Fecha.h"
 	"Contrato.h"
@@ -261,14 +272,14 @@
 	"ContratoMovil.h"
 	<string>
 
-1729777805 source:c:\users\chema\desktop\otros reps\prueba\practica_1\src\cliente.cpp
+1731255003 source:c:\users\chema\desktop\otros reps\prueba\practica_1\src\cliente.cpp
 	"Cliente.h"
 	"Fecha.h"
 
-1729778236 source:c:\users\chema\desktop\otros reps\prueba\practica_1\src\contrato.cpp
+1731255173 source:c:\users\chema\desktop\otros reps\prueba\practica_1\src\contrato.cpp
 	"Contrato.h"
 
-1730643208 source:c:\users\chema\desktop\otros reps\prueba\practica_1\src\contratomovil.cpp
+1731255230 source:c:\users\chema\desktop\otros reps\prueba\practica_1\src\contratomovil.cpp
 	<iostream>
 	<cstdlib>
 	<cstring>
@@ -276,13 +287,13 @@
 	"Contrato.h"
 	"ContratoMovil.h"
 
-1730643208 source:c:\users\chema\desktop\otros reps\prueba\practica_1\src\contratotp.cpp
+1731255194 source:c:\users\chema\desktop\otros reps\prueba\practica_1\src\contratotp.cpp
 	"ContratoTP.h"
 
-1729708272 source:c:\users\chema\desktop\otros reps\prueba\practica_1\src\fecha.cpp
+1731255759 source:c:\users\chema\desktop\otros reps\prueba\practica_1\src\fecha.cpp
 	"Fecha.h"
 
-1730649827 source:c:\users\chema\desktop\otros reps\prueba\practica_1\src\empresa.cpp
+1731255482 source:c:\users\chema\desktop\otros reps\prueba\practica_1\src\empresa.cpp
 	"Empresa.h"
 	"Contrato.h"
 
@@ -363,4 +374,10 @@
 
 1730731370 source:c:\users\usuario\desktop\prueba-main\practica_1\src\fecha.cpp
 	"Fecha.h"
+
+1731243140 source:c:\users\chema\desktop\otros reps\prueba\practica_1\prueba1.cpp
+	<cstdlib>
+	<iostream>
+	"Fecha.h"
+	"Cliente.h"
 
