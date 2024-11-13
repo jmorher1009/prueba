@@ -11,7 +11,7 @@ class Fecha {
 public:
   Fecha(const int &dia, const int &m, const int &anio);
  //virtual ~Fecha(); //NO HACE FALTA
- //Fecha(const Fecha &f); //NO HACE FALTA: EL QUE GENERA EL COMPILADOR FUNCIONA BIEN YA QUE NO HAY PUNTEROS
+    //Fecha(const Fecha &f); //NO HACE FALTA: EL QUE GENERA EL COMPILADOR FUNCIONA BIEN YA QUE NO HAY PUNTEROS
   int getDia() const { return dia; }
   int getMes() const { return this->mes; }
   int getAnio() const { return this->anio; }
