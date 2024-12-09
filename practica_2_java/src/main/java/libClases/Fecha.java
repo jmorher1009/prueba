@@ -46,7 +46,7 @@ public final class Fecha implements Cloneable, Proceso {
 		return String.format("%02d/%02d/%02d", dia, mes, anio);
 	}
 	public boolean bisiesto() {
-		if ((anio%4==0 && anio%100!=0) || anio%400==0)
+		if((anio%4==0 && anio%100!=0) || anio%400==0)
 			return true;
 		else
 			return false;
