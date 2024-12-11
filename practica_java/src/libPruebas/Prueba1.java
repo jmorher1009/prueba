@@ -44,7 +44,7 @@ public class Prueba1 {
         Cliente[] c = new Cliente[6]; //array de 6 elementos de tipo Cliente
         c[0] = new ClienteMovil("547B", "Bo Derek", fnac1, f3, f3, 50.50f, 0.03f);
         c[1] = new ClienteMovil("107J", "Messi", fnac2, 35.00f, 0.02f);
-        /*ClienteMovil cm = (ClienteMovil) c[1].clone();
+        ClienteMovil cm = (ClienteMovil) c[1].clone();
         c[2] = cm;
         cm.setNombre(c1.getNombre());
         cm.setFechaAlta(f1);
@@ -73,7 +73,7 @@ public class Prueba1 {
         if (c[4].equals(c3) == false) {
             System.out.println("c[4] y c3 no son iguales (mismo dni pero distinto tipo)");
         }
-    */
+        
         }
 }
 

@@ -13,11 +13,29 @@ public class ClienteMovil extends Cliente {
         Permanencia = (Fecha) perm.clone(); // Otra forma -> Permanencia = new Fecha(perm);
     }
 
-   public ClienteMovil(String NIF, String nom, Fecha fNac, float minHablados, float precioMin) {
-		super(NIF, nom, fNac);
-		precioMinuto = precioMin;
-		minutosHablados = minHablados;
-		Permanencia = new Fecha(getFechaAlta().getDia(), getFechaAlta().getMes(), getFechaAlta().getAnio()+1);
-	}
+    public ClienteMovil(String NIF, String nom, Fecha fNac, float minHablados, float precioMin) {
+        super(NIF, nom, fNac);
+        precioMinuto = precioMin;
+        minutosHablados = minHablados;
+        Permanencia = new Fecha(getFechaAlta().getDia(), getFechaAlta().getMes(), getFechaAlta().getAnio() + 1);
+    }
 
+    public ClienteMovil(ClienteMovil c) {
+        super(c.getNif(), c.getNombre(), c.getFechaNac(), c.getFechaAlta());
+        this.Permanencia = new Fecha(c.Permanencia);
+        this.precioMinuto = c.precioMinuto;
+        this.minutosHablados = c.minutosHablados;
+    }
+
+    public Object clone() {
+        return new ClienteMovil(this);
+    }
+
+    public void setFPermanencia(Fecha f1) {
+        Permanencia = new Fecha(f1);
+    }
+
+    public Fecha getFPermanencia() {
+        return new Fecha(Permanencia);
+    }
 }
