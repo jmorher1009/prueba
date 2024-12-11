@@ -35,7 +35,23 @@ public class ClienteMovil extends Cliente {
         Permanencia = new Fecha(f1);
     }
 
+    public float factura() {
+        return precioMinuto * minutosHablados;
+    }
+
     public Fecha getFPermanencia() {
         return new Fecha(Permanencia);
+    }
+
+    public float getPrecioMinuto() {
+
+        return precioMinuto;
+    
+    }
+
+    void setPrecioMinuto(float aux) {
+        
+        this.precioMinuto = aux;
+        
     }
 }
