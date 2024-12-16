@@ -1,0 +1,114 @@
+CREATE OR REPLACE PROCEDURE LLAMADAFACTURACION(año integer)
+IS
+		CURSOR C_TELEFONO IS 
+		SELECT DISTINCT TF_ORIGEN FROM MF.LLAMADA
+		WHERE EXTRACT (YEAR FROM FECHA_HORA)=AÑO;
+	
+BEGIN
+	dbms_output.put_line('n telefono' || ' ' || 'importe(en €)');
+	dbms_output.put_line('-------------' || ' ' || '------------)');
+
+	FOR R_TELEFONO IN C_TELEFONO LOOP
+		dbms_output.put_line(R_TELEFONO.tf_origen || ' ' ||  FACTURACION(R_TELEFONO.TF_ORIGEN, AÑO));
+		
+	END LOOP;
+	
+EXCEPTION
+	WHEN OTHERs THEN 
+		 DBMS_OUTPUT.PUT_LINE('HA OCURRIDO UN ERROR');
+END LLAMADAFACTURACION;
+
+-----------------------------------------------------------------------------------
+
+CREATE OR REPLACE PROCEDURE LLAMADAS_CIA(COMPA mf.COMPAÑIA.NOMBRE%TYPE, fecha varchar)
+IS
+	
+	FILAS_LLAMADAS_HECHAS INTEGER;
+	NO_EXISTE_LLAMADAS EXCEPTION;
+	num_total_compa integer;
+	NUM_LLAM_TOTAL INTEGER;
+	NUM_LLAM_100 INTEGER;
+	PORCENTAJE NUMBER(5,2);
+
+	CURSOR C_TL_CIA IS
+		SELECT T.NUMERO
+		FROM MF.TELEFONO t INNER JOIN MF.COMPAÑIA c ON T.COMPAÑIA=C.CIF
+		WHERE C.NOMBRE=COMPA;
+	
+	CURSOR C_LLAMADAS_TL(TLF MF.LLAMADA.TF_ORIGEN%TYPE) IS
+		SELECT l.tf_origen, L.TF_DESTINO, L.DURACION
+		FROM mf.LLAMADA l 
+		WHERE to_char(l.FECHA_HORA, 'dd/mm/yy') = fecha AND TF_ORIGEN=TLF;
+	
+
+BEGIN
+	
+	SELECT COUNT(*) INTO FILAS_LLAMADAS_HECHAS
+	FROM (MF.LLAMADA l INNER JOIN MF.TELEFONO t ON L.TF_ORIGEN=T.NUMERO)
+						INNER JOIN MF.COMPAÑIA c ON T.COMPAÑIA=C.CIF
+	WHERE to_char(l.FECHA_HORA, 'dd/mm/yy') = fecha AND C.NOMBRE=COMPA;
+	
+	IF FILAS_LLAMADAS_HECHAS=0 THEN
+		RAISE NO_EXISTE_LLAMADAS;
+	END IF;
+	
+	dbms_output.put_line('tlf_Origen' || ' ' || 'num_lla' || ' ' || 'num_llam100' || ' ' || 'porcentaje');
+	dbms_output.put_line('-----------------------------------------------------');
+	
+	num_total_compa:=0;
+	
+	FOR v_tele IN C_TL_CIA LOOP 
+		NUM_LLAM_TOTAL:=0; NUM_LLAM_100:=0;
+		FOR V_LLAMADA IN C_LLAMADAS_TL(V_TELE.NUMERO)LOOP 	
+			IF(V_LLAMADA.DURACION > 100)THEN
+				NUM_LLAM_100:=NUM_LLAM_100+1;
+			END IF;
+				NUM_LLAM_TOTAL:=NUM_LLAM_TOTAL+1;
+				num_total_compa:=num_total_compa+1;
+		END LOOP;
+		IF(NUM_LLAM_100 <>0) THEN
+			PORCENTAJE:=(NUM_LLAM_100/NUM_LLAM_TOTAL)*100;
+		ELSE
+			PORCENTAJE:=0;
+		END IF;
+		dbms_output.put_line(v_tele.numero || '                ' || num_llam_total || '         ' || num_llam_100|| '            ' || porcentaje || '%');
+	
+	END LOOP;
+		dbms_output.put_line('Numer total realizada: ' || num_total_compa);
+EXCEPTION 
+	WHEN NO_EXISTE_LLAMADAS THEN
+			dbms_output.put_line('NO HAY LLAMDAS EN LA FECHA');
+	WHEN OTHERS THEN 
+	dbms_output.put_line('HA OCURRIDO UN ERROR');
+	
+END LLAMADAS_CIA;
+
+-----------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION BD_085.facturacion(tlfn mf.LLAMADA.TF_ORIGEN%TYPE, año integer) 
+RETURN float IS
+	IMPORTE NUMBER(10,2);
+	FACTURACIONBAJA EXCEPTION;
+BEGIN
+	SELECT TRUNC(SUM((L.DURACION*TA.COSTE)/60),2) into IMPORTE
+	FROM (MF.TELEFONO T INNER JOIN MF.TARIFA ta ON T.TARIFA=TA.TARIFA AND T.COMPAÑIA=TA.COMPAÑIA)
+						INNER JOIN MF.LLAMADA L ON L.TF_ORIGEN=T.NUMERO
+	WHERE EXTRACT (YEAR FROM L.FECHA_HORA)=AÑO AND L.TF_ORIGEN=TLFN
+	GROUP BY L.TF_ORIGEN;
+
+	IF (IMPORTE < 1) THEN
+		RAISE FACTURACIONBAJA;
+	END IF;
+RETURN IMPORTE;
+EXCEPTION
+	
+	WHEN FACTURACIONBAJA THEN
+		dbms_output.put_line('Facturacion demasiado baja');
+		RETURN -1;
+	WHEN NO_DATA_FOUND THEN
+		dbms_output.put_line('El telefono no existe o no ha realizado llamadas ese año');
+	WHEN OTHERS THEN
+		dbms_output.put_line('Ha ocurrido un error');
+		
+	
+END facturacion;
