@@ -95,6 +95,7 @@ public class Empresa implements Cloneable {
                     clientes[nCli - 1] = new ClienteMovil(NIF, nom, fNac, fAlta, perm, minHablados, precioMin);
                 }
             } else {
+                sc.nextLine();
                 System.out.println("Nacionalidad: ");
                 String nac = sc.nextLine();
                 if (nCli != nMaxCli) {
