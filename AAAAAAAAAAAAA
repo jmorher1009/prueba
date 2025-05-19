@@ -1,0 +1,648 @@
+#include <iostream>
+#include "abb.h"
+#include "arbin.h"
+#include "nodoB.h"
+#include <queue>
+#include "excep_abb.h"
+#include "excepcion.h"
+#include "Excep_Ej6.h"
+#include <string>
+#include <string.h>
+
+using namespace std;
+/*------------------------------RECORRIDOS------------------------------*/
+template <typename T>
+//INORDEN: IZQUIERDO, RAIZ, DERECHO
+void inorden(const Arbin<T>& a)
+{
+    inorden(a,a.getRaiz());
+}
+template <typename T>
+void inorden(const Arbin<T>& a, const typename Arbin<T>::Iterador& r)
+{
+    if (!r.arbolVacio())
+    {
+        inorden(a, a.subIzq(r));
+        cout << r.observar() << " ";
+        inorden(a, a.subDer(r));
+    }
+}
+//POSTORDEN: IZQUIERDO, DERECHO, RAÍZ
+template <typename T>
+void postorden(const Arbin<T>& a)
+{
+    postorden(a,a.getRaiz());
+}
+template <typename T>
+void postorden(const Arbin<T>& a, const typename Arbin<T>::Iterador &r)
+{
+    if(!r.arbolVacio())
+    {
+        postorden(a,a.subIzq(r));
+        postorden(a,a.subDer(r));
+        cout << r.observar() << " ";
+    }
+}
+//PREORDEN: RAÍZ, IZQUIERDO, DERECHO
+template <typename T>
+void preorden(const Arbin<T>& a)
+{
+    preorden(a,a.getRaiz());
+}
+template <typename T>
+void preorden(const Arbin<T>& a, const typename Arbin<T>::Iterador& r)
+{
+    if(!r.arbolVacio())
+    {
+        cout << r.observar() << " ";
+        preorden(a,a.subIzq(r));
+        preorden(a,a.subDer(r));
+    }
+}
+
+//----------------------------- Ejercicio 1 -----------------------------
+template <typename T>
+int numero_hojas(const Arbin<T>& a)
+{
+    return numero_hojas(a, a.getRaiz());
+}
+
+template <typename T>
+int numero_hojas(const Arbin<T>& a, const typename Arbin<T>::Iterador& r)
+{
+
+    if(r.arbolVacio())
+        return 0;
+    else if(a.subIzq(r).arbolVacio() && a.subDer(r).arbolVacio())
+        return 1;
+    else return numero_hojas(a, a.subIzq(r)) + numero_hojas(a, a.subDer(r));
+}
+
+template <typename T>
+void anchura(const Arbin<T>& a)
+{
+    if (!a.esVacio())
+    {
+        queue<typename Arbin<T>::Iterador> c;
+        typename Arbin<T>::Iterador ic = a.getRaiz();
+        c.push(ic);
+        while (!c.empty())
+        {
+            ic = c.front();
+            c.pop();
+            cout << ic.observar() << " ";
+            if (!a.subIzq(ic).arbolVacio())
+                c.push(a.subIzq(ic));
+            if (!a.subDer(ic).arbolVacio())
+                c.push(a.subDer(ic));
+        }
+    }
+}
+
+
+
+//----------------------------- Ejercicio 2 -----------------------------
+
+template <typename T>
+const Arbin<T>& simetrico(const Arbin<T>& a)
+{
+    return *simetrico<T>(a,a.getRaiz());
+}
+
+template <typename T>
+const Arbin<T>* simetrico(const Arbin<T>& a, const typename Arbin<T>::Iterador r)
+{
+    if(r.arbolVacio())
+        return new Arbin<T>();
+    else
+        return new Arbin<T>(r.observar(), *simetrico(a, a.subDer(r)), *simetrico(a, a.subIzq(r)));
+}
+
+//----------------------------- Ejercicio 3 -----------------------------
+
+template <typename T>
+void recorridoZigZag(const Arbin<T>& a, char sentido)
+{
+    recorridoZigZag(a, a.getRaiz(), sentido);
+}
+
+template <typename T>
+void recorridoZigZag(const Arbin<T>& a, const typename Arbin<T>::Iterador& r, char sentido)
+{
+    /*
+    if(!r.arbolVacio())
+    {
+    	cout << "->" <<r.observar() ;
+
+    	if(sentido == 'D')
+    		recorridoZigZag(a, a.subDer(r), 'I');
+    	else
+    		recorridoZigZag(a, a.subIzq(r), 'D');
+
+    }*/
+    if(!r.arbolVacio())
+    {
+        cout << "->" <<r.observar();
+        if(!a.subDer(r).arbolVacio() && sentido=='D')
+            recorridoZigZag(a,a.subDer(r),'I');
+        else if(!a.subIzq(r).arbolVacio() && sentido=='I')
+            recorridoZigZag(a,a.subIzq(r),'D');
+    }
+}
+
+//----------------------------- Ejercicio 4 -----------------------------
+template <typename T>
+bool compensado(const Arbin<T>& a)
+{
+    return compensado(a,a.getRaiz());
+}
+template <typename T>
+int hijos(const Arbin<T>& a, const typename Arbin<T>::Iterador& r);
+template <typename T>
+bool compensado(const Arbin<T>&a, const typename Arbin<T>::Iterador& r)
+{
+    if(r.arbolVacio()||(a.subDer(r).arbolVacio() && a.subIzq(r).arbolVacio()))
+        return true;
+    else if(!compensado(a,a.subDer(r)) || !compensado(a,a.subIzq(r)))
+        return false;
+    else
+    {
+        return ((hijos(a,a.subDer(r))-hijos(a,a.subIzq(r)))<=1);
+    }
+}
+
+
+template <typename T>
+int hijos(const Arbin<T>& a, const typename Arbin<T>::Iterador& r)
+{
+    if(r.arbolVacio())
+        return 0;
+    else
+        return hijos(a, a.subIzq(r)) + hijos(a, a.subDer(r)) + 1;
+}
+
+//----------------------------- Ejercicio 5 -----------------------------
+// palabra: desde la raiz hasta una hoja
+/*
+template <typename T>
+void concatenacion(const Arbin<T> &a)
+{
+    string s;
+    concatenacion(a, a.getRaiz(), s);
+}
+template <typename T>
+void concatenacion(const Arbin<T> &a, const typename Arbin<T>::Iterador &r,
+                   string s)
+{
+    if(!r.arbolVacio())
+    {
+        s += r.observar();
+        concatenacion(a, a.subIzq(r), s);
+        concatenacion(a, a.subDer(r), s);
+        if(a.subIzq(r).arbolVacio() && a.subDer(r).arbolVacio())
+        {
+            s = s + "\n";
+            cout << s;
+        }
+    }
+}
+*/
+template <typename T>
+void concatenacion(const Arbin<T>& a)
+{
+    string n;
+    concatenacion(a,a.getRaiz(), n);
+}
+
+template <typename T>
+void concatenacion(const Arbin<T>& a, const typename Arbin<T>::Iterador& r,string visualizar)
+{
+    if(!r.arbolVacio())
+    {
+        visualizar+=r.observar();
+        concatenacion(a,a.subIzq(r),visualizar);
+        concatenacion(a,a.subDer(r),visualizar);
+
+        if(a.subDer(r).arbolVacio()&&a.subIzq(r).arbolVacio())
+        {
+            cout << visualizar;
+            cout << "\n";
+
+        }
+    }
+}
+//----------------------------- Ejercicio 6 -----------------------------
+/*
+Sea a un árbol de búsqueda binario de enteros positivos y x un número entero positivo. Se
+pide escribir una función que dados a y x devuelva el siguiente elemento mayor que x
+almacenado en el árbol. En caso de que x no tenga un elemento mayor en el árbol a debe
+lanzar una excepción. El elemento x puede estar en el árbol o no
+*/
+
+int siguienteMayor(const ABB<int>& a, int x, const ABB<int>::Iterador& r,
+                   int sm)
+{
+    if(!r.arbolVacio())
+    {
+        if(x<r.observar())
+        {
+            sm = r.observar();
+            if(a.subIzq(r).arbolVacio())
+                return sm;
+            else
+                return siguienteMayor(a, x, a.subIzq(r), sm);
+        }
+        else if(a.subDer(r).arbolVacio())
+            return sm;
+        else
+            return siguienteMayor(a, x, a.subDer(r), sm);
+    }
+}
+int siguienteMayor(const ABB<int>& a, int x) throw (NoHaySiguienteMayor)
+{
+    int sm = siguienteMayor(a, x, a.getRaiz(), 0);
+    if(sm==0)
+        throw NoHaySiguienteMayor();
+    else
+        return sm;
+}
+//----------------------------- Ejercicio 7 -----------------------------
+/*Realizar una función que devuelva la posición de un elemento en un ABB (desde 1 hasta el número de
+nodos del árbol) según un recorrido en inorden de dicho árbol, pero sin tener que procesar a posteriori
+el resultado de dicho recorrido. Si el elemento no está en el árbol, la función devolverá 0.*/
+
+template <typename T>
+int devuelve_posicion(const ABB<T>& a,int elemento)
+{
+    int numero=0;
+    return devuelve_posicion(a,a.getRaiz(),elemento,numero);
+}
+template <typename T>
+int devuelve_posicion(const ABB<T>& a,const typename ABB<T>::Iterador& r,T elemento,int &numero)
+{
+    int pos = 0;
+    if(!r.arbolVacio())
+    {
+        if(a.buscar(elemento))
+        {
+            pos = devuelve_posicion(a,a.subIzq(r),elemento,numero);
+            if(pos==0)
+            {
+                if(r.observar()==elemento)
+                    pos = numero;
+                else
+                {
+                    numero++;
+                    pos = devuelve_posicion(a,a.subDer(r),elemento,numero);
+                }
+            }
+        }
+    }
+    return pos;
+}
+
+/*----------------------------------------- EJERCICIO_8 -----------------------------------------*/
+
+template <typename T>
+bool haySumaCamino(const Arbin<T>&a,int suma)
+{
+    haySumaCamino(a,a.getRaiz(),suma);
+}
+template <typename T>
+bool haySumaCamino(const Arbin<T>&a,const typename Arbin<T>::Iterador& r,int suma)
+{
+    if(!r.arbolVacio())
+    {
+        suma-=r.observar();
+        if(a.subIzq(r).arbolVacio() && a.subDer(r).arbolVacio())
+            return (suma==0);
+        else if(!a.subIzq(r).arbolVacio() && !a.subDer(r).arbolVacio())
+        {
+            return (haySumaCamino(a,a.subDer(r),suma) ||haySumaCamino(a,a.subIzq(r),suma));
+        }
+        else if(!a.subIzq(r).arbolVacio())
+            return haySumaCamino(a,a.subIzq(r),suma);
+        else
+            return haySumaCamino(a,a.subDer(r),suma);
+    }
+    return false;
+}
+
+
+template <typename T>
+bool comprobar_contrasenia(const Arbin<T>&a,string nuevo)
+{
+    string aux="";
+    return comprobar_contrasenia(a,a.getRaiz(),nuevo,aux);
+}
+template <typename T>
+bool comprobar_contrasenia(const Arbin<T>&a, const typename Arbin<T>::Iterador& r,string nuevo,string aux)
+{
+    if(!r.arbolVacio())
+    {
+        aux+=r.observar();
+        if(a.subDer(r).arbolVacio() && a.subIzq(r).arbolVacio())
+        {
+            //cout << aux << " nuevo: " << nuevo <<endl;
+            if(aux==nuevo)
+                return true;
+        }
+        else if(!a.subDer(r).arbolVacio() || !a.subIzq(r).arbolVacio())
+            return (comprobar_contrasenia(a,a.subDer(r),nuevo,aux) || comprobar_contrasenia(a,a.subIzq(r),nuevo,aux));
+        else if(!a.subIzq(r).arbolVacio())
+            return (comprobar_contrasenia(a,a.subIzq(r),nuevo,aux));
+        else
+            return (comprobar_contrasenia(a,a.subDer(r),nuevo,aux));
+    }
+    return false;
+}
+
+template <typename T>
+int num_nodos(const Arbin<T>& a){
+
+return num_nodos(a,a.getRaiz());
+
+}
+template <typename T>
+int num_nodos(const Arbin<T>& a, const typename Arbin<T>::Iterador& r){
+    if(r.arbolVacio()) //el árbol no cambia, el que puede cambiar a vacio
+        return 0; //es el iterador "r"
+    else
+    {
+        return (1 + num_nodos(a,a.subIzq(r)) + num_nodos(a,a.subDer(r)));
+    }
+}
+
+
+
+
+
+/*
+bool haySumaCamino(const Arbin<int> a,int suma,const typename Arbin<int>::Iterador& i)
+{
+    if (!i.arbolVacio())
+    {
+        suma = suma - i.observar();
+//cout<<suma<<" ";
+        if (a.subIzq(i).arbolVacio() && a.subDer(i).arbolVacio())
+        {
+            return (suma == 0);
+        }
+        else if (!a.subIzq(i).arbolVacio() && !a.subDer(i).arbolVacio())
+        {
+            return (haySumaCamino(a,suma,a.subIzq(i)) ||
+                    haySumaCamino(a,suma,a.subDer(i)) );
+        }
+        else if (!a.subIzq(i).arbolVacio())
+        {
+            return haySumaCamino(a,suma,a.subIzq(i));
+        }
+        else
+            return haySumaCamino(a,suma,a.subDer(i));
+    }
+    return false;
+}
+bool haySumaCamino(const Arbin<int>&a,int suma)
+{
+    return haySumaCamino(a,suma,a.getRaiz());
+}*/
+template <typename T>
+void sumapares(const Arbin<T>& a,int &suma)
+{
+    sumapares(a,a.getRaiz(),suma);
+}
+template <typename T>
+void sumapares(const Arbin<T>& a, const typename Arbin<T>::Iterador &r,int &suma)
+{
+    if(!r.arbolVacio())
+    {
+        sumapares(a,a.subIzq(r),suma);
+        sumapares(a,a.subDer(r),suma);
+        if (r.observar()%2 == 0)
+            suma+=r.observar();
+    }
+}
+int main()
+{
+    Arbin<int> arbol(1, // Raíz
+                     Arbin<int>(2, // Raíz izquierda
+                                Arbin<int>(4, // Hoja izquierda
+                                           Arbin<int>(8, // Subárbol izquierdo de 4
+                                                   Arbin<int>(), Arbin<int>()
+                                                     ),
+                                           Arbin<int>() // Hoja derecha de 8
+                                          ),
+                                Arbin<int>(5, // Hoja derecha de 4
+                                           Arbin<int>(), Arbin<int>()
+                                          )
+
+                               ), Arbin<int>()
+
+                    );
+
+    // Crear un árbol binario de altura 3
+
+    Arbin<int> arbol1(1,//raiz
+                      Arbin<int>(2,//raiz izq
+                                 Arbin<int>(4,//hoja izq
+                                            Arbin<int>(), Arbin<int>()
+                                           ),
+                                 Arbin<int>(5,
+                                            Arbin<int>(), Arbin<int>()//hoja der
+                                           )
+                                ),
+                      Arbin<int>(3,//raiz der
+                                 Arbin<int>(6,//hoja izq
+                                            Arbin<int>(), Arbin<int>()
+                                           ),
+
+                                 Arbin<int>(7,//hoja der
+                                            Arbin<int>(), Arbin<int>()
+                                           )
+                                )
+                     );
+
+    /*
+       1
+      / \
+     /   \
+    2     3
+    / \   / \
+    4   5 6   7    */
+
+    Arbin<char> arbol2('a',
+                       Arbin<char>('b',
+                                   Arbin<char>('d',
+                                           Arbin<char>(), Arbin<char>()
+                                              ),
+                                   Arbin<char>('e',
+                                           Arbin<char>(), Arbin<char>()
+                                              )
+                                  ),
+                       Arbin<char>('c',
+                                   Arbin<char>('f',
+                                           Arbin<char>(), Arbin<char>()
+                                              ),
+                                   Arbin<char>() // Omite el nodo 7
+                                  )
+                      );
+    /*
+         a
+        / \
+       /   \
+      b     c
+     / \   /
+    d   e f
+
+
+    */
+
+    Arbin<int> arbol3(1,
+                      Arbin<int>(2,
+                                 Arbin<int>(4,
+                                            Arbin<int>(8,Arbin<int>(),Arbin<int>()),
+                                            Arbin<int>(35,Arbin<int>(),Arbin<int>())
+                                           ),
+                                 Arbin<int>(5,
+                                            Arbin<int>(3,Arbin<int>(),Arbin<int>()),
+                                            Arbin<int>(5,Arbin<int>(),Arbin<int>())
+                                           )
+                                ),
+                      Arbin<int>(3,
+                                 Arbin<int>(6,
+                                            Arbin<int>(4,Arbin<int>(),Arbin<int>()),
+                                            Arbin<int>(5,Arbin<int>(),Arbin<int>())
+                                           ),
+                                 Arbin<int>(7,
+                                            Arbin<int>(6,Arbin<int>(),Arbin<int>()),
+                                            Arbin<int>(7,Arbin<int>(),Arbin<int>())
+                                           )
+                                )
+                     );
+
+
+    /*
+
+         1
+        / \
+       /   \
+      2     3
+     / \   / \
+    /   \ /   \
+    4    5 6    7
+    / \  /\ /\   /\
+    8 35 3 5 4 5 6  7
+
+
+
+    */
+    Arbin<char> A('t', Arbin<char>('m', Arbin<char>(),
+                                   Arbin<char>('f', Arbin<char>(),
+                                           Arbin<char>())),
+                  Arbin<char>('k', Arbin<char>('d', Arbin<char>(),
+                              Arbin<char>()),
+                              Arbin<char>()));
+    Arbin<char> H('m', Arbin<char>('q', Arbin<char>('s', Arbin<char>(),
+                                   Arbin<char>()),
+                                   Arbin<char>('t',
+                                           Arbin<char>(), Arbin<char>())),
+                  Arbin<char>('d', Arbin<char>('k',
+                              Arbin<char>(), Arbin<char>()),
+                              Arbin<char>()));
+
+    Arbin<char> I('m', Arbin<char>('q', Arbin<char>('s', Arbin<char>(),
+                                   Arbin<char>()),
+                                   Arbin<char>('t',
+                                           Arbin<char>(), Arbin<char>())),
+                  Arbin<char>('d', Arbin<char>('k',
+                              Arbin<char>(), Arbin<char>()),
+                              Arbin<char>('x',
+                                          Arbin<char>(), Arbin<char>())));
+    /* A:
+       t
+      / \
+     /   \
+    m     k
+    /     /
+    f     d
+
+
+    */
+    ABB<int> BB6, BB7;
+    BB6.insertar(8);
+    BB6.insertar(3);
+    BB6.insertar(10);
+    BB6.insertar(1);
+    BB6.insertar(6);
+    BB6.insertar(14);
+    BB6.insertar(4);
+    BB6.insertar(7);
+    BB6.insertar(13);
+
+
+    /*cout << numero_hojas(arbol3)<<endl<<endl;
+
+    recorridoZigZag(arbol3,'I');
+    cout <<endl<<endl;
+    recorridoZigZag(simetrico(arbol2),'D');
+    cout <<endl<<endl;
+    recorridoZigZag(simetrico(arbol3),'I');
+    cout <<endl<<endl;
+    inorden(arbol2);
+
+    cout << "\nPreorden: ";
+    preorden(arbol3);
+    cout <<endl;
+
+    cout << "\Inorden: ";
+    inorden(arbol3);
+    cout <<endl;
+
+    cout << "\nPostorden: ";
+    postorden(arbol3);
+
+    if(compensado(I))
+        cout << "\nCompensado arbol 1\n";
+    if(compensado(arbol2))
+        cout << "\nCompensado arbol 2\n";
+    if(compensado(arbol3))
+        cout << "\nCompensado arbol 3\n";
+
+    concatenacion(arbol2);
+    cout << "-------\n";
+    concatenacion(A);
+    cout << "-------\n";
+    concatenacion(I);
+    cout << "-------\n";
+    cout <<endl;
+
+    cout << siguienteMayor(BB6,4)<<endl;
+    cout << siguienteMayor(BB6,13)<<endl;
+    cout << siguienteMayor(BB6,11)<<endl;
+    cout << siguienteMayor(BB6,10)<<endl;
+
+
+    int suma=0;
+    sumapares(arbol1,suma);
+    cout << suma <<endl;
+    cout << devuelve_posicion(BB6,13);
+
+    if(haySumaCamino(arbol,14))
+        cout << "SI\n";
+    if(haySumaCamino(arbol,8))
+        cout << "SI\n";
+    if(haySumaCamino(arbol,4))
+        cout << "SI\n";
+*/
+    if(comprobar_contrasenia(I,(string)"mqsd"))
+    {
+        cout << "EXISTE";
+    }
+
+    cout << "\nNumero nodos arbol : " << num_nodos(arbol1,arbol1.getRaiz());
+    cout << "\nNumero nodos arbol1 : " << num_nodos(arbol1);
+    cout << "\nNumero nodos arbol2 : " << num_nodos(arbol2);
+
+}
+
+
