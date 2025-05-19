@@ -1,0 +1,1 @@
+AÑADIR LOS DLL UCTRBASED.DLL Y VCRUNTIME140D.DLL para que funcione en otros windows.
